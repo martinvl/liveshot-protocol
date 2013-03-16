@@ -2,6 +2,15 @@
     "name":"liveshot-protocol",
     "version":"0.1.0b-1",
     "main":"index.js",
-    "dependencies":{
-    }
+    "description":"Builders for protocol data formats used in LiveShot.",
+    "repository":{ "type":"git",
+        "url":"https://github.com/martinvl/liveshot-protocol.git"
+    },
+    "author":{
+        "name":"Martin V. Larsen",
+        "email":"martin@melvon.com"
+    },
+    "homepage":"https://github.com/martinvl/liveshot-protocol",
+    "bugs":"https://github.com/martinvl/liveshot-protocol/issues",
+    "dependencies":{}
 }
