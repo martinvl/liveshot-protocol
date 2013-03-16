@@ -8,7 +8,7 @@ TargetBuilder.createBlankTarget = function () {
     var target = {
         ringSizes:[1.],
         scale:1,
-        gauge:.01,
+        gaugeSize:.01,
         blackSize:.4,
         numbersFrom:1,
         numbersTo:1
@@ -39,8 +39,8 @@ TargetBuilder.prototype.setScale = function (scale) {
     return this;
 };
 
-TargetBuilder.prototype.setGauge = function (gauge) {
-    this._target.gauge = gauge;
+TargetBuilder.prototype.setGaugeSize = function (gaugeSize) {
+    this._target.gaugeSize = gaugeSize;
 
     return this;
 };
