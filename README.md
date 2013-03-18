@@ -92,8 +92,8 @@ var target = new RingTargetBuilder()
     largest should ring always have size `1`.
 * **setBlackSize**(< _number_ >blackSize) - ( _RingTargetBuilder_ )  
     _blackSize_ is the size of the black disc with repect to the target size.
-    For instance, a target with radius `300mm' and a black disc with radius
-    `120mm`, _blackSize_ should be `120mm / 300mm = .4'.
+    For instance, a target with radius `300mm` and a black disc with radius
+    `120mm`, _blackSize_ should be `120mm / 300mm = .4`.
 * **setNumbersFrom**(< _number_ >numbersFrom) - ( _RingTargetBuilder_ )
 * **setNumbersTo**(< _number_ >numbersFrom) - ( _RingTargetBuilder_ )
 
