@@ -12,7 +12,7 @@ ShotListBuilder.createBlankShotList = function () {
 };
 
 ShotListBuilder.prototype.reset = function () {
-    this._shotList = ShotListBuilder.createBlankShotList();
+    this._shotList = this.constructor.createBlankShotList();
 };
 
 ShotListBuilder.prototype.getShotList = function () {

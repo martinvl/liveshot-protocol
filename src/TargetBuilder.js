@@ -14,7 +14,7 @@ TargetBuilder.createBlankTarget = function () {
 };
 
 TargetBuilder.prototype.reset = function () {
-    this._target = TargetBuilder.createBlankTarget();
+    this._target = this.constructor.createBlankTarget();
 
     return this;
 };

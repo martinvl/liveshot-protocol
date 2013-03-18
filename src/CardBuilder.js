@@ -24,7 +24,7 @@ CardBuilder.createBlankCard = function () {
 };
 
 CardBuilder.prototype.reset = function () {
-    this._card = CardBuilder.createBlankCard();
+    this._card = this.constructor.createBlankCard();
 
     return this;
 };

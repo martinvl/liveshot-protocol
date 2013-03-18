@@ -15,7 +15,7 @@ ShotBuilder.createBlankShot = function () {
 };
 
 ShotBuilder.prototype.reset = function () {
-    this._shot = ShotBuilder.createBlankShot();
+    this._shot = this.constructor.createBlankShot();
 
     return this;
 };
