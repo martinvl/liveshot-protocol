@@ -9,15 +9,15 @@ Builds a card object. All properties must be present, but default to empty
 placeholders, and are therefore optional.
 
 ```javascript
-var card = new CardBuilder().
-    setName('Martin').
-    setLane('1').
-    setClub('Rygge').
-    setClassName('4').
-    setCategory('A').
-    setSeriesSum('50').
-    setTotalSum('150').
-    getCard();
+var card = new CardBuilder()
+    .setName('Martin')
+    .setLane('1')
+    .setClub('Rygge')
+    .setClassName('4')
+    .setCategory('A')
+    .setSeriesSum('50')
+    .setTotalSum('150')
+    .getCard();
 ```
 
 * CardBuilder. **createBlankCard**() - ( _object_ )  
@@ -57,14 +57,14 @@ Builds a target object. All properties must be present, but default to empty
 placeholders, and are therefore optional.
 
 ```javascript
-var target = new TargetBuilder().
-    setRingSizes([1., .9, .8, .7, .6, .5, .4, .3, .2, .1, .05]).
-    setScale(300000).
-    setGaugeSize(.0133).
-    setBlackSize(.4).
-    setNumbersFrom(1).
-    setNumbersTo(9).
-    getTarget();
+var target = new TargetBuilder()
+    .setRingSizes([1., .9, .8, .7, .6, .5, .4, .3, .2, .1, .05])
+    .setScale(300000)
+    .setGaugeSize(.0133)
+    .setBlackSize(.4)
+    .setNumbersFrom(1)
+    .setNumbersTo(9)
+    .getTarget();
 ```
 
 * TargetBuilder. **createBlankTarget**() - ( _object_ )  
@@ -110,10 +110,10 @@ Builds a shot object. All properties must be present, but default to empty
 placeholders, and are therefore optional.
 
 ```javascript
-var shot = new ShotBuilder().
-    setScaledPosition(30, 0, target.scale).
-    setValue('X.0').
-    getShot();
+var shot = new ShotBuilder()
+    .setScaledPosition(30, 0, target.scale)
+    .setValue('X.0')
+    .getShot();
 ```
 
 * ShotBuilder. **createBlankShot**() - ( _object_ )  
@@ -148,10 +148,10 @@ ShotListBuilder
 Builds a shot list object.
 
 ```javascript
-var shotList = new ShotListBuilder().
-    addShot(shot).
-    addShotForPosition(.1, 0, 'X.0').
-    getShotList();
+var shotList = new ShotListBuilder()
+    .addShot(shot)
+    .addShotForPosition(.1, 0, 'X.0')
+    .getShotList();
 ```
 
 * ShotListBuilder. **createBlankShotList**() - ( _object_ )  
