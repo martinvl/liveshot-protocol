@@ -47,12 +47,8 @@ placeholders, and are therefore optional.
 
 ```javascript
 var target = new TargetBuilder()
-    .setRingSizes([1., .9, .8, .7, .6, .5, .4, .3, .2, .1, .05])
     .setScale(300000)
     .setGaugeSize(.0133)
-    .setBlackSize(.4)
-    .setNumbersFrom(1)
-    .setNumbersTo(9)
     .getTarget();
 ```
 
@@ -64,10 +60,6 @@ var target = new TargetBuilder()
     for convenience.
 * **getTarget**() - ( _object_ )  
     Returns pointer to the current target
-* **setRingSizes**(< _array_ >ringSizes) - ( _TargetBuilder_ )  
-    _ringSizes_ should be a stricly decreasing positive sequence of
-    numbers. Each number represents the radius of a ring on the target. The
-    largest should ring always have size `1`.
 * **setScale**(< _number_ >scale) - ( _TargetBuilder_ )  
     _scale_ is the real size of the target, with respect to the coordinates
     given for shots. For instance, a normal ten ring target with radius `300mm`,
@@ -78,12 +70,32 @@ var target = new TargetBuilder()
     _gaugeSize_ is the size of the gauge used with respect to the target size. For
     instance, a target with radius `300mm` and a gauge with radius `4mm`,
     _gaugeSize_ should be `4mm / 300mm = .0133`.
-* **setBlackSize**(< _number_ >blackSize) - ( _TargetBuilder_ )  
+
+RingTargetBuilder
+-----------------
+Subclass of TargetBuilder, contains some additional setters:
+
+```javascript
+var target = new RingTargetBuilder()
+    .setRingSizes([1., .9, .8, .7, .6, .5, .4, .3, .2, .1, .05])
+    .setScale(300000)
+    .setGaugeSize(.0133)
+    .setBlackSize(.4)
+    .setNumbersFrom(1)
+    .setNumbersTo(9)
+    .getTarget();
+```
+
+* **setRingSizes**(< _array_ >ringSizes) - ( _RingTargetBuilder_ )  
+    _ringSizes_ should be a stricly decreasing positive sequence of
+    numbers. Each number represents the radius of a ring on the target. The
+    largest should ring always have size `1`.
+* **setBlackSize**(< _number_ >blackSize) - ( _RingTargetBuilder_ )  
     _blackSize_ is the size of the black disc with repect to the target size.
     For instance, a target with radius `300mm' and a black disc with radius
     `120mm`, _blackSize_ should be `120mm / 300mm = .4'.
-* **setNumbersFrom**(< _number_ >numbersFrom) - ( _TargetBuilder_ )
-* **setNumbersTo**(< _number_ >numbersFrom) - ( _TargetBuilder_ )
+* **setNumbersFrom**(< _number_ >numbersFrom) - ( _RingTargetBuilder_ )
+* **setNumbersTo**(< _number_ >numbersFrom) - ( _RingTargetBuilder_ )
 
 ShotBuilder
 -----------
