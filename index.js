@@ -1,7 +1,7 @@
 module.exports = {
     CardBuilder:require('src/CardBuilder'),
-    TargetBuilder:require('src/TargetBuilder'),
-    RingTargetBuilder:require('src/RingTargetBuilder'),
-    ShotListBuilder:require('src/ShotListBuilder'),
+    ConfigBuilder:require('src/ConfigBuilder'),
+    ResultBuilder:require('src/ResultBuilder'),
+    ShooterBuilder:require('src/ShooterBuilder'),
     ShotBuilder:require('src/ShotBuilder')
 };

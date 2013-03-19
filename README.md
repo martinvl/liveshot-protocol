@@ -33,7 +33,7 @@ display configuration.
         The total sum of the card, formatted for display, ex: `'150'`
     * < _object_ >`shots`
         * Multiple < _object_ >s, use ascending key. I.e. the keys of this
-        object can be whatever, as long as their natural order is correct.
+        object can be whatever, as long as they iterate in correct order.
         Typically these keys are just normal numeric indices as if it where an
         array.
             * < _number_ >`x`  
