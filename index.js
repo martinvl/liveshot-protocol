@@ -3,5 +3,6 @@ module.exports = {
     ConfigBuilder:require('./src/ConfigBuilder'),
     ResultBuilder:require('./src/ResultBuilder'),
     ShooterBuilder:require('./src/ShooterBuilder'),
-    ShotBuilder:require('./src/ShotBuilder')
+    ShotBuilder:require('./src/ShotBuilder'),
+    RingTargetBuilder:require('./src/RingTargetBuilder')
 };
