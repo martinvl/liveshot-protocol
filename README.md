@@ -148,6 +148,7 @@ var shooter = new ShooterBuilder()
 
 **ResultBuilder**  
 Builds _Result_ objects. All setters return reference to the builder, for convenience.
+```javascript
 var result = new ResultBuilder()
     .setSeriesName('Ligg')
     .setSeriesSum('50')
