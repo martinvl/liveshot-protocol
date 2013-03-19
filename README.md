@@ -119,7 +119,7 @@ var card = new CardBuilder()
     Resets the current list of shots
 * **addShot**(< _object_ >shot) - ( _CardBuilder_ )  
     `shot` should be as described above
-* **addShotForPosition**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _CardBuilder_ )  
+* **addShotData**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _CardBuilder_ )  
     -1 <= `x`, `y` <= 1, where (`x`, `y`) represent the _center_ of the shot  
     `value` is the shot value, appropriately formatted for displaying
 
@@ -141,6 +141,8 @@ var shooter = new ShooterBuilder()
     Resets the current shooter object.
 * **getShooter**() - ( _object_ )  
     Returns pointer to the current shooter object
+* **setShooter**(< _object_ >shooter) - ( _ShooterBuilder_ )  
+    Copies all relevant fields from `shooter`
 * **setName**(< _string_ >name) - ( _ShooterBuilder_ )
 * **setClub**(< _string_ >club) - ( _ShooterBuilder_ )
 * **setClassName**(< _string_ >className) - ( _ShooterBuilder_ )
@@ -154,10 +156,10 @@ var result = new ResultBuilder()
     .setSeriesSum('50')
     .setTotalSum('150')
     .addShot(shot)
-    .addShotForPosition(0, -.1, 'X.0')
-    .addShotForPosition(.071, .071, 'X.0')
-    .addShotForPosition(.071, -.071, 'X.0')
-    .addShotForPosition(-.071, .071, 'X.0')
+    .addShotData(0, -.1, 'X.0')
+    .addShotData(.071, .071, 'X.0')
+    .addShotData(.071, -.071, 'X.0')
+    .addShotData(-.071, .071, 'X.0')
     .getResult();
 ```
 
@@ -168,6 +170,8 @@ var result = new ResultBuilder()
     Resets the current result object.
 * **getResult**() - ( _object_ )  
     Returns pointer to the current result object
+* **setResult**(< _object_ >result) - ( _ResultBuilder_ )  
+    Copies all relevant fields from `result`
 * **setSeriesName**(< _string_ >seriesName) - ( _ResultBuilder_ )
 * **setSeriesSum**(< _string_ >seriesSum) - ( _ResultBuilder_ )
 * **setTotalSum**(< _string_ >totalSum) - ( _ResultBuilder_ )
@@ -177,7 +181,7 @@ var result = new ResultBuilder()
     Resets the current list of shots
 * **addShot**(< _object_ >shot) - ( _ResultBuilder_ )  
     `shot` should be as described above
-* **addShotForPosition**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _ResultBuilder_ )  
+* **addShotData**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _ResultBuilder_ )  
     -1 <= `x`, `y` <= 1, where (`x`, `y`) represent the _center_ of the shot  
     `value` is the shot value, appropriately formatted for displaying
 
@@ -206,6 +210,7 @@ Builds _Shot_ objects. All setters return reference to the builder, for convenie
     _y_ should be normalized (i.e. `-1 <= y <= 1`)
 
 **ConfigBuilder**  
+Builds _Config_ objects. All setters return reference to the builder, for convenience.
 ```javascript
 var config = new ConfigBuilder()
     .setGaugeSize(.00533)
@@ -213,7 +218,6 @@ var config = new ConfigBuilder()
     .getConfig();
 ```
 
-Builds _Config_ objects. All setters return reference to the builder, for convenience.
 * (static method) **ConfigBuilder.createBlankConfig**() - ( _object_ )  
     Creates and returns a new empty config object, with all fields present,
     but set to empty placeholder values.
@@ -221,6 +225,8 @@ Builds _Config_ objects. All setters return reference to the builder, for conven
     Resets the current config object.
 * **getConfig**() - ( _object_ )  
     Returns pointer to the current config object
+* **setConfig**(< _object_ >config) - ( _ConfigBuilder_ )  
+    Copies all relevant fields from `config`
 * **setGaugeSize**(< _number_ >gaugeSize) - ( _ConfigBuilder_ )
 * **setTargetID**(< _string_ >targetID) - ( _ConfigBuilder_ )  
     For valid values for `targetID`, see _List of implemented targets_ in

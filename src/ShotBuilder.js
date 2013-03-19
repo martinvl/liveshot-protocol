@@ -31,26 +31,6 @@ ShotBuilder.prototype.setPosition = function (x, y) {
     return this;
 };
 
-ShotBuilder.prototype.setPolarPosition = function (t, r) {
-    var x = Math.cos(t) * r;
-    var y = Math.sin(t) * r;
-
-    return this.setPosition(x, y);
-};
-
-ShotBuilder.prototype.setScaledPosition = function (x, y, scale) {
-    x /= scale;
-    y /= scale;
-
-    return this.setPosition(x, y);
-};
-
-ShotBuilder.prototype.setScaledPolarPosition = function (t, r, scale) {
-    r /= scale;
-
-    return this.setPolarPosition(t, r);
-};
-
 ShotBuilder.prototype.setX = function (x) {
     this._shot.x = x;
 
