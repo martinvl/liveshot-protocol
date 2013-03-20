@@ -1,10 +1,12 @@
 var assert = require('chai').assert;
 
-var CardBuilder = require('../src/CardBuilder');
-var ConfigBuilder = require('../src/ConfigBuilder');
-var ResultBuilder = require('../src/ResultBuilder');
-var ShooterBuilder = require('../src/ShooterBuilder');
-var ShotBuilder = require('../src/ShotBuilder');
+var protocol = require('../index');
+
+var CardBuilder = protocol.CardBuilder;
+var ConfigBuilder = protocol.ConfigBuilder;
+var ResultBuilder = protocol.ResultBuilder;
+var ShooterBuilder = protocol.ShooterBuilder;
+var ShotBuilder = protocol.ShotBuilder;
 
 suite('CardBuilder', function() {
     setup(function () {
