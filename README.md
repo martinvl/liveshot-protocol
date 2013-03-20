@@ -57,10 +57,6 @@ display configuration.
 
 Typically these objects should be created using builders. See below.
 
-Builders
---------
-Various builder classes for convenience:
-
 **CardBuilder**  
 Builds _Card_ objects. All setters return reference to the builder, for convenience.
 
