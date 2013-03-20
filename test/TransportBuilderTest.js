@@ -2,11 +2,11 @@ var assert = require('chai').assert;
 
 var protocol = require('../index');
 
-var CardBuilder = protocol.CardBuilder;
-var ConfigBuilder = protocol.ConfigBuilder;
-var ResultBuilder = protocol.ResultBuilder;
-var ShooterBuilder = protocol.ShooterBuilder;
-var ShotBuilder = protocol.ShotBuilder;
+var CardBuilder = protocol.card.CardBuilder;
+var ConfigBuilder = protocol.card.ConfigBuilder;
+var ResultBuilder = protocol.card.ResultBuilder;
+var ShooterBuilder = protocol.card.ShooterBuilder;
+var ShotBuilder = protocol.card.ShotBuilder;
 
 suite('CardBuilder', function() {
     setup(function () {
