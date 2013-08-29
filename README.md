@@ -101,8 +101,8 @@ var card = new CardBuilder()
 * **setTotalSum**(< _string_ >totalSum) - ( _CardBuilder_ )
 * **setGaugeSize**(< _number_ >gaugeSize) - ( _CardBuilder_ )
 * **setTargetID**(< _string_ >targetID) - ( _CardBuilder_ )  
-    For valid values for `targetID`, see _List of implemented targets_ in
-    [liveshot-dom](https://github.com/martinvl/liveshot-dom).
+    For valid values of `targetID`, see _List of implemented targets_ in
+    [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
 * **setShooter**(< _object_ >shooter) - ( _CardBuilder_ )  
     `shooter` should be as described above
 * **setResult**(< _object_ >result) - ( _CardBuilder_ )  
@@ -225,5 +225,5 @@ var config = new ConfigBuilder()
     Copies all relevant fields from `config`
 * **setGaugeSize**(< _number_ >gaugeSize) - ( _ConfigBuilder_ )
 * **setTargetID**(< _string_ >targetID) - ( _ConfigBuilder_ )  
-    For valid values for `targetID`, see _List of implemented targets_ in
-    [liveshot-dom](https://github.com/martinvl/liveshot-dom).
+    For valid values of `targetID`, see _List of implemented targets_ in
+    [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
