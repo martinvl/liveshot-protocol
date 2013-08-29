@@ -53,7 +53,7 @@ display configuration.
         1000mm = .008`.
     * < _string_ >`targetID`
         For valid values of `targetID`, see _List of implemented targets_ in
-        [liveshot-dom](https://github.com/martinvl/liveshot-dom).
+        [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
 
 Typically these objects should be created using builders. See below.
 
