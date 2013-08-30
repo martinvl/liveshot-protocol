@@ -5,13 +5,7 @@ implemented through various builders.
 
 Data transfer
 -------------
-**Card**  
-Contains all data about a single display unit (typically one for each
-lane or shooter). This includes info about the shooter, the results, and
-display configuration.
-
-`CardBuilder` should be used to create these objects.
-
+**Card**
 * < _string_ >`range`  
     The range display name, ex: `'100m'`
 * < _string_ >`relay`  
@@ -25,10 +19,10 @@ display configuration.
 * < _CardConfig_ >`config`  
     See **CardConfig** below.
 
-**Shooter**
-Either use `ShooterBuilder` to build directly, or use the convenience methods
-of `CardBuilder` to build indirectly.
+`CardBuilder` should be used to create `Card` objects, including its
+subobjects.
 
+**Shooter**
 * < _string_ >`name`  
     The display name for the shooter, ex: `'Martin V. Larsen'`
 * < _string_ >`club`  
@@ -38,10 +32,10 @@ of `CardBuilder` to build indirectly.
 * < _string_ >`category`  
     The the category of the shooter, ex: `'LF'`
 
-**Result**
-Either use `ResultBuilder` to build directly, or use the convenience methods of
-`CardBuilder` to build indirectly.
+Either use `ShooterBuilder` to build directly, or use the convenience methods
+of `CardBuilder` to build indirectly.
 
+**Result**
 * < _string_ >`seriesName`  
     The display name for the series, ex: `'Prone'`
 * < _string_ >`seriesSum`
@@ -53,10 +47,10 @@ Either use `ResultBuilder` to build directly, or use the convenience methods of
     anything, as long as they iterate in the correct order. Typically these
     keys are just normal numeric indices as in an array.
 
-**Shot**
-Either use `ShotBuilder` to build directly, or use `addShotData` of
-`ResultBuilder` or `CardBuilder`.
+Either use `ResultBuilder` to build directly, or use the convenience methods of
+`CardBuilder` to build indirectly.
 
+**Shot**
 * < _number_ >`x`  
     The x-coordinate of the _center_ of the shot. This should be
     normalized, such that -1 <= `x` <= 1.
@@ -67,9 +61,10 @@ Either use `ShotBuilder` to build directly, or use `addShotData` of
     `value` is the shot value, appropriately formatted for display,
     ex: `'X.0'`
 
-**CardConfig**
-`ConfigBuilder` should be used to create these objects.
+Either use `ShotBuilder` to build directly, or use `addShotData` of
+`ResultBuilder` or `CardBuilder`.
 
+**CardConfig**
 * < _number_ >`gaugeSize`  
     The size of the gauge (similar to diameter of the bullet) relative to
     the target size. For instance, if the target diameter is `1000mm`, and
@@ -79,7 +74,7 @@ Either use `ShotBuilder` to build directly, or use `addShotData` of
     For valid values of `targetID`, see _List of implemented targets_ in
     [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
 
-Typically these objects should be created using builders. See below.
+`ConfigBuilder` should be used to create `CardConfig` objects.
 
 **CardBuilder**  
 Builds _Card_ objects. All setters return reference to the builder, for convenience.
