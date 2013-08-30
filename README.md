@@ -9,51 +9,75 @@ Data transfer
 Contains all data about a single display unit (typically one for each
 lane or shooter). This includes info about the shooter, the results, and
 display configuration.
+
+`CardBuilder` should be used to create these objects.
+
 * < _string_ >`range`  
     The range display name, ex: `'100m'`
 * < _string_ >`relay`  
     The display name for the relay, ex: `'1'`
 * < _string_ >`lane`  
     The display name for the lane, ex: `'1'`
-* < _object_ >`shooter`
-    * < _string_ >`name`  
-        The display name for the shooter, ex: `'Martin V. Larsen'`
-    * < _string_ >`club`  
-        The display name of the club of the shooter, ex: `'Rygge'`
-    * < _string_ >`className`  
-        The class of the shooter, ex: `'V55'`
-    * < _string_ >`category`  
-        The the category of the shooter, ex: `'LF'`
-* < _object_ >`result`
-    * < _string_ >`seriesName`  
-        The display name for the series, ex: `'Prone'`
-    * < _string_ >`seriesSum`
-        The sum of the current series, formatted for display, ex: `'50'`
-    * < _string_ >`totalSum`
-        The total sum of the card, formatted for display, ex: `'150'`
-    * < _object_ >`shots`
-        * Multiple < _object_ >s, use ascending key. I.e. the keys of this
-        object can be whatever, as long as they iterate in correct order.
-        Typically these keys are just normal numeric indices as if it where an
-        array.
-            * < _number_ >`x`  
-                The x-coordinate of the _center_ of the shot. This should be
-                normalized, such that -1 <= `x` <= 1.
-            * < _number_ >`y`  
-                The y-coordinate of the _center_ of the shot. This should be
-                normalized, such that -1 <= `y` <= 1.
-            * < _string_ >`value`  
-                `value` is the shot value, appropriately formatted for display,
-                ex: `'X.0'`
-* < _object_ >`config`
-    * < _number_ >`gaugeSize`  
-        The size of the gauge (similar to diameter of the bullet) relative to
-        the target size. For instance, if the target diameter is `1000mm`, and
-        the gauge diameter is `8mm`, the value of `gaugeSize` should be `8mm /
-        1000mm = .008`.
-    * < _string_ >`targetID`
-        For valid values of `targetID`, see _List of implemented targets_ in
-        [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
+* < _Shooter_ >`shooter`  
+    See **Shooter** below.
+* < _Result_ >`result`  
+    See **Result** below.
+* < _CardConfig_ >`config`  
+    See **CardConfig** below.
+
+**Shooter**
+Either use `ShooterBuilder` to build directly, or use the convenience methods
+of `CardBuilder` to build indirectly.
+
+* < _string_ >`name`  
+    The display name for the shooter, ex: `'Martin V. Larsen'`
+* < _string_ >`club`  
+    The display name of the club of the shooter, ex: `'Rygge'`
+* < _string_ >`className`  
+    The class of the shooter, ex: `'V55'`
+* < _string_ >`category`  
+    The the category of the shooter, ex: `'LF'`
+
+**Result**
+Either use `ResultBuilder` to build directly, or use the convenience methods of
+`CardBuilder` to build indirectly.
+
+* < _string_ >`seriesName`  
+    The display name for the series, ex: `'Prone'`
+* < _string_ >`seriesSum`
+    The sum of the current series, formatted for display, ex: `'50'`
+* < _string_ >`totalSum`
+    The total sum of the card, formatted for display, ex: `'150'`
+* < _iterable_ >`shots`
+    * Contains zero or more < _Shot_ > objects, the keys of this object can be
+    anything, as long as they iterate in the correct order. Typically these
+    keys are just normal numeric indices as in an array.
+
+**Shot**
+Either use `ShotBuilder` to build directly, or use `addShotData` of
+`ResultBuilder` or `CardBuilder`.
+
+* < _number_ >`x`  
+    The x-coordinate of the _center_ of the shot. This should be
+    normalized, such that -1 <= `x` <= 1.
+* < _number_ >`y`  
+    The y-coordinate of the _center_ of the shot. This should be
+    normalized, such that -1 <= `y` <= 1.
+* < _string_ >`value`  
+    `value` is the shot value, appropriately formatted for display,
+    ex: `'X.0'`
+
+**CardConfig**
+`ConfigBuilder` should be used to create these objects.
+
+* < _number_ >`gaugeSize`  
+    The size of the gauge (similar to diameter of the bullet) relative to
+    the target size. For instance, if the target diameter is `1000mm`, and
+    the gauge diameter is `8mm`, the value of `gaugeSize` should be `8mm /
+    1000mm = .008`.
+* < _string_ >`targetID`
+    For valid values of `targetID`, see _List of implemented targets_ in
+    [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
 
 Typically these objects should be created using builders. See below.
 
