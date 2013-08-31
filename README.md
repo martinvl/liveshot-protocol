@@ -3,8 +3,12 @@ LiveShot protocol
 Protocol specification for data formats used in LiveShot. The protocol is
 implemented through various builders.
 
-Data transfer
--------------
+Data Objects
+------------
+This section contains definitions of the data objects used by LiveShot. These
+objects represent the data format provided by the parser library, and accepted
+by the display library.
+
 **Card**
 * < _string_ >`range`  
     The range display name, ex: `'100m'`
