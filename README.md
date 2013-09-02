@@ -16,6 +16,7 @@ _This definition is considered a draft and is subject to change._
     The range display name, ex: `'100m'`
 * < _string_ >`relay`
     The display name for the relay, ex: `'1'`
+
 <!--
 * < _date_ >`timerZero`
     Timestamp representing timer zero, which it can do in three different ways:
