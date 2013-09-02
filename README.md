@@ -9,11 +9,51 @@ This section contains definitions of the data objects used by LiveShot. These
 objects represent the data format provided by the parser library, and accepted
 by the display library.
 
-**Card**
-* < _string_ >`range`  
+**Range**
+_This definition is considered a draft and is subject to change._
+
+* < _string_ >`name`
     The range display name, ex: `'100m'`
-* < _string_ >`relay`  
+* < _string_ >`relay`
     The display name for the relay, ex: `'1'`
+<!--
+* < _Date_ >`timerZero`
+    Timestamp representing timer zero, which it can do in three different ways:
+    * If `timerZero` is `undefined`, the timer is inactive
+    * If `timerZero` is a date in the past, the timer is counting up in such a
+    manner that zero time occured at `timerZero`
+    * If `timerZero` is a date in the future, the timer is counting down in
+    such a manner that zero time will occur at `timerZero`
+    The timer relies on the accuracy of the machine clocks at both ends of the
+    system, so care must be taken to synchronize these to a reasonable extent.
+    -->
+* < _iterable_ >`cards`
+    * Contains zero or more < _Card_ > objects, the keys of this object can be
+    anything, as long as they iterate in the correct order. Typically this is
+    just an array containing zero or more cards.
+
+<!--
+_Discussion_
+Range name and relay name is now duplicated across both `Range` and `Card`
+objects. Do we need this?
+
+`rangeName` and `relay` is needed in Card for
+* (`rangeName`) assembling CardID for fetching card
+    Can be fetched either from range (which you need to load at some point), or
+    from http fetch string
+* (`relay`) relay may be different accross different cards on the same range.
+  Can it?
+    At this point no. If it can, we need some way to handle this at range level
+    anyway
+* single card display mode, needs to display range and relay.
+    Still needs to load range at some point, which gives this data
+* identifying which range it belongs to
+    Can be handled in Core Data by using http fetch string
+* makes sense given data provided in Megalink files
+    Not an argument
+    -->
+
+**Card**
 * < _string_ >`lane`  
     The display name for the lane, ex: `'1'`
 * < _Shooter_ >`shooter`  
@@ -80,13 +120,40 @@ Either use `ShotBuilder` to build directly, or use `addShotData` of
 
 `ConfigBuilder` should be used to create `CardConfig` objects.
 
+**RangeBuilder**  
+Builds _Range_ objects. All setters return reference to the builder, for convenience.
+
+```javascript
+var range = new RangeBuilder()
+    .setName('300m')
+    .setRelay('1')
+    .setCards(cards)
+    .getRange();
+```
+
+* (static method) **RangeBuilder.createBlankRange**() - ( _object_ )  
+    Creates and returns a new empty range, with all fields present, but set to
+    empty placeholder values.
+* **reset**() - ( _RangeBuilder_ )  
+    Resets the current range. Returns pointer to the builder for convenience.
+* **getRange**() - ( _Range_ )  
+    Returns pointer to the current range
+* **setName**(< _string_ >range) - ( _RangeBuilder_ )
+* **setRelay**(< _string_ >relay) - ( _RangeBuilder_ )
+* **setCards**(< _iterable_ >cards) - ( _RangeBuilder_ )
+    `cards` should be as described above. This method iterates through the
+    provided `cards` and adds them to an empty array.
+* **resetCards**() - ( _RangeBuilder_ )  
+    Resets the current list of cards
+* **addCard**(< _Card_ >card) - ( _RangeBuilder_ )
+    Adds a `Card` object to the `cards` key of the current range. These cards
+    are inserted in the same order they are added.
+
 **CardBuilder**  
 Builds _Card_ objects. All setters return reference to the builder, for convenience.
 
 ```javascript
 var card = new CardBuilder()
-    .setRange('300m')
-    .setRelay('1')
     .setLane('1')
     .setName('Martin V. Larsen')
     .setClub('Rygge')
@@ -112,8 +179,6 @@ var card = new CardBuilder()
     Resets the current card. Returns pointer to the builder for convenience.
 * **getCard**() - ( _object_ )  
     Returns pointer to the current card
-* **setRange**(< _string_ >range) - ( _CardBuilder_ )
-* **setRelay**(< _string_ >relay) - ( _CardBuilder_ )
 * **setLane**(< _string_ >lane) - ( _CardBuilder_ )
 * **setName**(< _string_ >name) - ( _CardBuilder_ )
 * **setClub**(< _string_ >club) - ( _CardBuilder_ )
