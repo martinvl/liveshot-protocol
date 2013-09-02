@@ -9,7 +9,7 @@ This section contains definitions of the data objects used by LiveShot. These
 objects represent the data format provided by the parser library, and accepted
 by the display library.
 
-**Range**
+**Range**  
 _This definition is considered a draft and is subject to change._
 
 * < _string_ >`name`
