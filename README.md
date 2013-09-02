@@ -17,7 +17,7 @@ _This definition is considered a draft and is subject to change._
 * < _string_ >`relay`
     The display name for the relay, ex: `'1'`
 <!--
-* < _Date_ >`timerZero`
+* < _date_ >`timerZero`
     Timestamp representing timer zero, which it can do in three different ways:
     * If `timerZero` is `undefined`, the timer is inactive
     * If `timerZero` is a date in the past, the timer is counting up in such a
