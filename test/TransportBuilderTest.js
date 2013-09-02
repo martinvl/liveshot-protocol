@@ -4,9 +4,228 @@ var protocol = require('../index');
 
 var CardBuilder = protocol.CardBuilder;
 var ConfigBuilder = protocol.ConfigBuilder;
+var RangeBuilder = protocol.RangeBuilder;
 var ResultBuilder = protocol.ResultBuilder;
 var ShooterBuilder = protocol.ShooterBuilder;
 var ShotBuilder = protocol.ShotBuilder;
+
+suite('RangeBuilder', function() {
+    setup(function () {
+        this.builder = new RangeBuilder();
+    });
+
+    test('Creates blank range object to spec', function () {
+        var range = RangeBuilder.createBlankRange();
+        var blank = {
+            name:'',
+            relay:'',
+            cards:[]
+        };
+
+        assert.deepEqual(range, blank);
+    });
+
+    test('getRange() works as expected', function () {
+        var blank = {
+            name:'',
+            relay:'',
+            cards:[]
+        };
+
+        assert.deepEqual(this.builder.getRange(), blank);
+    });
+
+    test('Sets name as expected', function () {
+        var name = '100m';
+        var expected = {
+            name:name,
+            relay:'',
+            cards:[]
+        };
+
+        this.builder.setName(name);
+        assert.deepEqual(this.builder.getRange(), expected);
+    });
+
+    test('Sets relay as expected', function () {
+        var relay = '1';
+        var expected = {
+            name:'',
+            relay:relay,
+            cards:[]
+        };
+
+        this.builder.setRelay(relay);
+        assert.deepEqual(this.builder.getRange(), expected);
+    });
+
+    test('Adds cards as expected', function () {
+        var card1 = {
+            lane:'1',
+            name:'foo',
+            club:'bar'
+        };
+
+        var card2 = {
+            lane:'2',
+            name:'bar',
+            club:'foo'
+        };
+
+        var card3 = {
+            lane:'3',
+            name:'foo',
+            club:'baz'
+        };
+
+        assert.deepEqual(this.builder.getRange().cards, []);
+
+        this.builder.addCard(card1);
+        this.builder.addCard(card2);
+        this.builder.addCard(card3);
+
+        var range = this.builder.getRange();
+        assert.deepEqual(range.cards[0], card1);
+        assert.deepEqual(range.cards[1], card2);
+        assert.deepEqual(range.cards[2], card3);
+    });
+
+    test('Calling setCards() with empty array removes all cards', function () {
+        var card1 = {
+            lane:'1',
+            name:'foo',
+            club:'bar'
+        };
+
+        var card2 = {
+            lane:'2',
+            name:'bar',
+            club:'foo'
+        };
+
+        var card3 = {
+            lane:'3',
+            name:'foo',
+            club:'baz'
+        };
+
+        this.builder.addCard(card1);
+        this.builder.addCard(card2);
+        this.builder.addCard(card3);
+
+        var range = this.builder.setCards([]).getRange();
+        assert.deepEqual(range.cards, []);
+    });
+
+    test('setCards() adds cards as expected', function () {
+        var card1 = {
+            lane:'1',
+            name:'foo',
+            club:'bar'
+        };
+
+        var card2 = {
+            lane:'2',
+            name:'bar',
+            club:'foo'
+        };
+
+        var card3 = {
+            lane:'3',
+            name:'foo',
+            club:'baz'
+        };
+
+        var range = this.builder.setCards([card1, card2, card3]).getRange();
+        assert.deepEqual(range.cards[0], card1);
+        assert.deepEqual(range.cards[1], card2);
+        assert.deepEqual(range.cards[2], card3);
+    });
+
+    test('setCards() owerwrites existing and adds new cards as expected', function () {
+        var card1 = {
+            lane:'1',
+            name:'foo',
+            club:'bar'
+        };
+
+        var card2 = {
+            lane:'2',
+            name:'bar',
+            club:'foo'
+        };
+
+        var card3 = {
+            lane:'3',
+            name:'foo',
+            club:'baz'
+        };
+
+        var card4 = {
+            lane:'4',
+            name:'boo',
+            club:'par'
+        };
+
+        var card5 = {
+            lane:'5',
+            name:'gar',
+            club:'loo'
+        };
+
+        var card6 = {
+            lane:'6',
+            name:'koo',
+            club:'bat'
+        };
+
+        this.builder.setCards([card1, card2, card3]).getRange();
+        var range = this.builder.setCards([card4, card5, card6]).getRange();
+
+        assert.deepEqual(range.cards[0], card4);
+        assert.deepEqual(range.cards[1], card5);
+        assert.deepEqual(range.cards[2], card6);
+    });
+
+    test('resetCards() clears cards', function () {
+        var card1 = {
+            lane:'1',
+            name:'foo',
+            club:'bar'
+        };
+
+        var card2 = {
+            lane:'2',
+            name:'bar',
+            club:'foo'
+        };
+
+        var card3 = {
+            lane:'3',
+            name:'foo',
+            club:'baz'
+        };
+
+        this.builder.setCards([card1, card2, card3]).getRange();
+        this.builder.resetCards();
+
+        assert.deepEqual(this.builder.getRange().cards, []);
+    });
+
+    test('Setters work as expected', function () {
+        var expected = {
+            name:'100m',
+            relay:'1',
+            cards:[{foo:'bar'}, {zoo:'baz'}, {sky:'net'}]
+        };
+
+        var range = this.builder.setName(expected.name)
+            .setRelay(expected.relay)
+            .setCards(expected.cards)
+            .getRange();
+        assert.deepEqual(range, expected);
+    });
+});
 
 suite('CardBuilder', function() {
     setup(function () {
@@ -40,7 +259,7 @@ suite('CardBuilder', function() {
         assert.deepEqual(card, blank);
     });
 
-    test('getConfig() works as expected', function () {
+    test('getCard() works as expected', function () {
         var blank = {
             range:'',
             relay:'',
