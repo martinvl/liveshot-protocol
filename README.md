@@ -16,6 +16,10 @@ _This definition is considered a draft and is subject to change._
     The range display name, ex: `'100m'`
 * < _string_ >`relay`
     The display name for the relay, ex: `'1'`
+* < _iterable_ >`cards`
+    * Contains zero or more < _Card_ > objects, the keys of this object can be
+    anything, as long as they iterate in the correct order. Typically this is
+    just an array containing zero or more cards.
 
 <!--
 * < _date_ >`timerZero`
@@ -28,11 +32,6 @@ _This definition is considered a draft and is subject to change._
     The timer relies on the accuracy of the machine clocks at both ends of the
     system, so care must be taken to synchronize these to a reasonable extent.
     -->
-* < _iterable_ >`cards`
-    * Contains zero or more < _Card_ > objects, the keys of this object can be
-    anything, as long as they iterate in the correct order. Typically this is
-    just an array containing zero or more cards.
-
 <!--
 _Discussion_
 Range name and relay name is now duplicated across both `Range` and `Card`
