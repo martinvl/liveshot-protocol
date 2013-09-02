@@ -131,7 +131,7 @@ var range = new RangeBuilder()
     .getRange();
 ```
 
-* (static method) **RangeBuilder.createBlankRange**() - ( _object_ )  
+* (static method) **RangeBuilder.createBlankRange**() - ( _Range_ )  
     Creates and returns a new empty range, with all fields present, but set to
     empty placeholder values.
 * **reset**() - ( _RangeBuilder_ )  
@@ -172,12 +172,12 @@ var card = new CardBuilder()
     .getCard();
 ```
 
-* (static method) **CardBuilder.createBlankCard**() - ( _object_ )  
+* (static method) **CardBuilder.createBlankCard**() - ( _Card_ )  
     Creates and returns a new empty card, with all fields present, but set to
     empty placeholder values.
 * **reset**() - ( _CardBuilder_ )  
     Resets the current card. Returns pointer to the builder for convenience.
-* **getCard**() - ( _object_ )  
+* **getCard**() - ( _Card_ )  
     Returns pointer to the current card
 * **setLane**(< _string_ >lane) - ( _CardBuilder_ )
 * **setName**(< _string_ >name) - ( _CardBuilder_ )
@@ -191,17 +191,17 @@ var card = new CardBuilder()
 * **setTargetID**(< _string_ >targetID) - ( _CardBuilder_ )  
     For valid values of `targetID`, see _List of implemented targets_ in
     [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
-* **setShooter**(< _object_ >shooter) - ( _CardBuilder_ )  
+* **setShooter**(< _Shooter_ >shooter) - ( _CardBuilder_ )  
     `shooter` should be as described above
-* **setResult**(< _object_ >result) - ( _CardBuilder_ )  
+* **setResult**(< _Result_ >result) - ( _CardBuilder_ )  
     `result` should be as described above
-* **setConfig**(< _object_ >config) - ( _CardBuilder_ )  
+* **setConfig**(< _CardConfig_ >config) - ( _CardBuilder_ )  
     `config` should be as described above
-* **setShots**(< _object_ >shots) - ( _CardBuilder_ )  
+* **setShots**(< _iterable_ >shots) - ( _CardBuilder_ )  
     `shots` should be as described above
 * **resetShots**() - ( _CardBuilder_ )  
     Resets the current list of shots
-* **addShot**(< _object_ >shot) - ( _CardBuilder_ )  
+* **addShot**(< _Shot_ >shot) - ( _CardBuilder_ )  
     `shot` should be as described above
 * **addShotData**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _CardBuilder_ )  
     -1 <= `x`, `y` <= 1, where (`x`, `y`) represent the _center_ of the shot  
@@ -218,12 +218,12 @@ var shooter = new ShooterBuilder()
     .getShooter();
 ```
 
-* (static method) **ShooterBuilder.createBlankShooter**() - ( _object_ )  
+* (static method) **ShooterBuilder.createBlankShooter**() - ( _Shooter_ )  
     Creates and returns a new empty shooter object, with all fields present,
     but set to empty placeholder values.
 * **reset**() - ( _ShooterBuilder_ )  
     Resets the current shooter object.
-* **getShooter**() - ( _object_ )  
+* **getShooter**() - ( _Shooter_ )  
     Returns pointer to the current shooter object
 * **setShooter**(< _object_ >shooter) - ( _ShooterBuilder_ )  
     Copies all relevant fields from `shooter`
@@ -247,23 +247,23 @@ var result = new ResultBuilder()
     .getResult();
 ```
 
-* (static method) **ResultBuilder.createBlankResult**() - ( _object_ )  
+* (static method) **ResultBuilder.createBlankResult**() - ( _Result_ )  
     Creates and returns a new empty result object, with all fields present,
     but set to empty placeholder values.
 * **reset**() - ( _ResultBuilder_ )  
     Resets the current result object.
-* **getResult**() - ( _object_ )  
+* **getResult**() - ( _Result_ )  
     Returns pointer to the current result object
-* **setResult**(< _object_ >result) - ( _ResultBuilder_ )  
+* **setResult**(< _Result_ >result) - ( _ResultBuilder_ )  
     Copies all relevant fields from `result`
 * **setSeriesName**(< _string_ >seriesName) - ( _ResultBuilder_ )
 * **setSeriesSum**(< _string_ >seriesSum) - ( _ResultBuilder_ )
 * **setTotalSum**(< _string_ >totalSum) - ( _ResultBuilder_ )
-* **setShots**(< _object_ >shots) - ( _ResultBuilder_ )  
+* **setShots**(< _iterable_ >shots) - ( _ResultBuilder_ )  
     `shots` should be as described above
 * **resetShots**() - ( _ResultBuilder_ )  
     Resets the current list of shots
-* **addShot**(< _object_ >shot) - ( _ResultBuilder_ )  
+* **addShot**(< _Shot_ >shot) - ( _ResultBuilder_ )  
     `shot` should be as described above
 * **addShotData**(< _number_ >x, < _number_ >y, < _string_ >value) - ( _ResultBuilder_ )  
     -1 <= `x`, `y` <= 1, where (`x`, `y`) represent the _center_ of the shot  
@@ -278,12 +278,12 @@ var shot = new ShotBuilder()
 ```
 
 Builds _Shot_ objects. All setters return reference to the builder, for convenience.
-* (static method) **ShotBuilder.createBlankShot**() - ( _object_ )  
+* (static method) **ShotBuilder.createBlankShot**() - ( _Shot_ )  
     Creates and returns a new empty shot object, with all fields present,
     but set to empty placeholder values.
 * **reset**() - ( _ShotBuilder_ )  
     Resets the current shot object.
-* **getShot**() - ( _object_ )  
+* **getShot**() - ( _Shot_ )  
     Returns pointer to the current shot object
 * **setValue**(< _string_ >value) - ( _ShotBuilder_ )
 * **setPosition**(< _number_ >x, < _number_ >y) - ( _ShotBuilder_ )  
@@ -302,12 +302,12 @@ var config = new ConfigBuilder()
     .getConfig();
 ```
 
-* (static method) **ConfigBuilder.createBlankConfig**() - ( _object_ )  
+* (static method) **ConfigBuilder.createBlankConfig**() - ( _CardConfig_ )  
     Creates and returns a new empty config object, with all fields present,
     but set to empty placeholder values.
 * **reset**() - ( _ConfigBuilder_ )  
     Resets the current config object.
-* **getConfig**() - ( _object_ )  
+* **getConfig**() - ( _CardConfig_ )  
     Returns pointer to the current config object
 * **setConfig**(< _object_ >config) - ( _ConfigBuilder_ )  
     Copies all relevant fields from `config`
