@@ -1,6 +1,6 @@
 {
     "name":"liveshot-protocol",
-    "version":"0.1.0b-7",
+    "version":"0.1.0b-8",
     "main":"index.js",
     "description":"Builders for protocol data formats used in LiveShot.",
     "repository":{ "type":"git",
