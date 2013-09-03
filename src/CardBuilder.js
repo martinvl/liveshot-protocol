@@ -12,8 +12,6 @@ module.exports = CardBuilder;
 // --- External API ---
 CardBuilder.createBlankCard = function () {
     var card = {
-        range:'',
-        relay:'',
         lane:'',
         shooter:ShooterBuilder.createBlankShooter(),
         result:ResultBuilder.createBlankResult(),
@@ -35,18 +33,6 @@ CardBuilder.prototype.reset = function () {
 
 CardBuilder.prototype.getCard = function () {
     return this._card;
-};
-
-CardBuilder.prototype.setRange = function (range) {
-    this._card.range = range;
-
-    return this;
-};
-
-CardBuilder.prototype.setRelay = function (relay) {
-    this._card.relay = relay;
-
-    return this;
 };
 
 CardBuilder.prototype.setLane = function (lane) {

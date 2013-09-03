@@ -254,8 +254,6 @@ suite('CardBuilder', function() {
     test('Creates blank card object to spec', function () {
         var card = CardBuilder.createBlankCard();
         var blank = {
-            range:'',
-            relay:'',
             lane:'',
             shooter:{
                 name:'',
@@ -280,8 +278,6 @@ suite('CardBuilder', function() {
 
     test('getCard() works as expected', function () {
         var blank = {
-            range:'',
-            relay:'',
             lane:'',
             shooter:{
                 name:'',
@@ -304,67 +300,9 @@ suite('CardBuilder', function() {
         assert.deepEqual(this.builder.getCard(), blank);
     });
 
-    test('Sets range as expected', function () {
-        var range = '100m';
-        var expected = {
-            range:range,
-            relay:'',
-            lane:'',
-            shooter:{
-                name:'',
-                club:'',
-                className:'',
-                category:''
-            },
-            result:{
-                seriesName:'',
-                seriesSum:'',
-                totalSum:'',
-                shots:[]
-            },
-            config:{
-                gaugeSize:1,
-                targetID:''
-            }
-        };
-
-        this.builder.setRange(range);
-        assert.deepEqual(this.builder.getCard(), expected);
-    });
-
-    test('Sets relay as expected', function () {
-        var relay = '1';
-        var expected = {
-            range:'',
-            relay:relay,
-            lane:'',
-            shooter:{
-                name:'',
-                club:'',
-                className:'',
-                category:''
-            },
-            result:{
-                seriesName:'',
-                seriesSum:'',
-                totalSum:'',
-                shots:[]
-            },
-            config:{
-                gaugeSize:1,
-                targetID:''
-            }
-        };
-
-        this.builder.setRelay(relay);
-        assert.deepEqual(this.builder.getCard(), expected);
-    });
-
     test('Sets lane as expected', function () {
         var lane = '1';
         var expected = {
-            range:'',
-            relay:'',
             lane:lane,
             shooter:{
                 name:'',
@@ -389,8 +327,6 @@ suite('CardBuilder', function() {
     });
 
     test('Setters work as expected', function () {
-        var range = '100m';
-        var relay = '1';
         var lane = '1';
         var name = 'Martin V. Larsen';
         var club = 'Rygge';
@@ -403,8 +339,6 @@ suite('CardBuilder', function() {
         var targetID = 'DFS100m';
 
         var expected = {
-            range:range,
-            relay:relay,
             lane:lane,
             shooter:{
                 name:name,
@@ -424,9 +358,7 @@ suite('CardBuilder', function() {
             }
         };
 
-        this.builder.setRange(range)
-            .setRelay(relay)
-            .setLane(lane)
+        this.builder.setLane(lane)
             .setName(name)
             .setClub(club)
             .setClassName(className)
