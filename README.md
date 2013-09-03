@@ -12,6 +12,9 @@ by the display library.
 **Range**  
 _This definition is considered a draft and is subject to change._
 
+* < _string_ >`host`
+    The display name of the host of the shooting. This is typically the name of
+    the host club, ex: `'Rygge SKL'`
 * < _string_ >`name`
     The range display name, ex: `'100m'`
 * < _string_ >`relay`
@@ -125,6 +128,7 @@ Builds _Range_ objects. All setters return reference to the builder, for conveni
 
 ```javascript
 var range = new RangeBuilder()
+    .setHost('Rygge SKL')
     .setName('300m')
     .setRelay('1')
     .setCards(cards)
@@ -138,6 +142,7 @@ var range = new RangeBuilder()
     Resets the current range. Returns pointer to the builder for convenience.
 * **getRange**() - ( _Range_ )  
     Returns pointer to the current range
+* **setHost**(< _string_ >host) - ( _RangeBuilder_ )
 * **setName**(< _string_ >range) - ( _RangeBuilder_ )
 * **setRelay**(< _string_ >relay) - ( _RangeBuilder_ )
 * **setCards**(< _iterable_ >cards) - ( _RangeBuilder_ )

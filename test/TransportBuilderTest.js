@@ -17,6 +17,7 @@ suite('RangeBuilder', function() {
     test('Creates blank range object to spec', function () {
         var range = RangeBuilder.createBlankRange();
         var blank = {
+            host:'',
             name:'',
             relay:'',
             cards:[]
@@ -27,6 +28,7 @@ suite('RangeBuilder', function() {
 
     test('getRange() works as expected', function () {
         var blank = {
+            host:'',
             name:'',
             relay:'',
             cards:[]
@@ -35,9 +37,23 @@ suite('RangeBuilder', function() {
         assert.deepEqual(this.builder.getRange(), blank);
     });
 
+    test('Sets host as expected', function () {
+        var host = 'Rygge SKL';
+        var expected = {
+            host:host,
+            name:'',
+            relay:'',
+            cards:[]
+        };
+
+        this.builder.setHost(host);
+        assert.deepEqual(this.builder.getRange(), expected);
+    });
+
     test('Sets name as expected', function () {
         var name = '100m';
         var expected = {
+            host:'',
             name:name,
             relay:'',
             cards:[]
@@ -50,6 +66,7 @@ suite('RangeBuilder', function() {
     test('Sets relay as expected', function () {
         var relay = '1';
         var expected = {
+            host:'',
             name:'',
             relay:relay,
             cards:[]
@@ -214,12 +231,14 @@ suite('RangeBuilder', function() {
 
     test('Setters work as expected', function () {
         var expected = {
+            host:'Rygge SKL',
             name:'100m',
             relay:'1',
             cards:[{foo:'bar'}, {zoo:'baz'}, {sky:'net'}]
         };
 
         var range = this.builder.setName(expected.name)
+            .setHost(expected.host)
             .setRelay(expected.relay)
             .setCards(expected.cards)
             .getRange();

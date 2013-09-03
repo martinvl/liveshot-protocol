@@ -7,6 +7,7 @@ module.exports = RangeBuilder;
 // --- External API ---
 RangeBuilder.createBlankRange = function () {
     var range = {
+        host:'',
         name:'',
         relay:'',
         cards:[],
@@ -29,6 +30,12 @@ RangeBuilder.prototype.resetCards = function () {
 
 RangeBuilder.prototype.getRange = function () {
     return this._range;
+};
+
+RangeBuilder.prototype.setHost = function (host) {
+    this._range.host = host;
+
+    return this;
 };
 
 RangeBuilder.prototype.setName = function (name) {
