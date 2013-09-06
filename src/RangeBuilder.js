@@ -10,7 +10,7 @@ RangeBuilder.createBlankRange = function () {
         host:'',
         name:'',
         relay:'',
-        cards:[],
+        cards:[]
     };
 
     return range;
