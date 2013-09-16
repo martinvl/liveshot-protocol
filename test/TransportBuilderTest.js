@@ -9,6 +9,114 @@ var ResultBuilder = protocol.ResultBuilder;
 var ShooterBuilder = protocol.ShooterBuilder;
 var ShotBuilder = protocol.ShotBuilder;
 
+suite('ShotBuilder', function() {
+    setup(function () {
+        this.builder = new ShotBuilder();
+    });
+
+    test('Creates blank shot object to spec', function () {
+        var shot = ShotBuilder.createBlankShot();
+
+        assert.deepEqual(shot, {x:0, y:0, value:''});
+    });
+
+    test('Sanitizes shot object as expected', function () {
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2, value:'foo'}), {x:1, y:2, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2}), {x:1, y:2, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, value:'foo'}), {x:1, y:0, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({y:2, value:'foo'}), {x:0, y:2, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({value:'foo'}), {x:0, y:0, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({y:2}), {x:0, y:2, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1}), {x:1, y:0, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({}), {x:0, y:0, value:''});
+    });
+
+    test('getShot() works as expected', function () {
+        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:''});
+    });
+
+    test('Sets x-position as expected', function () {
+        var x = Math.random()*2 - 1;
+
+        this.builder.setX(x);
+        assert.deepEqual(this.builder.getShot(), {x:x, y:0, value:''});
+    });
+
+    test('Sets y-position as expected', function () {
+        var y = Math.random()*2 - 1;
+
+        this.builder.setY(y);
+        assert.deepEqual(this.builder.getShot(), {x:0, y:y, value:''});
+    });
+
+    test('Sets value as expected', function () {
+        var value = 'X.0';
+
+        this.builder.setValue(value);
+        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:value});
+    });
+
+    test('Sets position as expected', function () {
+        var x = Math.random()*2 - 1;
+        var y = Math.random()*2 - 1;
+
+        this.builder.setPosition(x, y);
+        assert.deepEqual(this.builder.getShot(), {x:x, y:y, value:''});
+    });
+
+    test('Resets as expected', function () {
+        // change to non-default values
+        var x = Math.random()*2 - 1;
+        var y = Math.random()*2 - 1;
+        var value = 'X.0';
+
+        this.builder.setPosition(x, y);
+        this.builder.setValue(value);
+
+        var shot = this.builder.getShot();
+        assert.deepEqual(shot, {x:x, y:y, value:value});
+
+        // reset
+        this.builder.reset();
+        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:''});
+
+        // check that the original shot has not been changed
+        assert.deepEqual(shot, {x:x, y:y, value:value});
+    });
+
+    test('setShot() creates empty shot for empty shot data', function () {
+        this.builder.setShot({});
+
+        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
+    });
+
+    test('setShot() resets existing shot data', function () {
+        this.builder.setPosition(2, 3);
+        this.builder.setValue('foo');
+        this.builder.setShot({});
+
+        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
+    });
+
+    test('setShot() accepts all available fields', function () {
+        var shot = {x:1, y:2, value:'X'};
+        this.builder.setShot(shot);
+
+        assert.deepEqual(this.builder.getShot(), shot);
+    });
+
+    test('setShot() handles missing fields', function () {
+        var blankShot = ShotBuilder.createBlankShot();
+
+        this.builder.setShot({x:1});
+        assert.deepEqual(this.builder.getShot(), {x:1, y:0, value:''});
+        this.builder.setShot({y:1});
+        assert.deepEqual(this.builder.getShot(), {x:0, y:1, value:''});
+        this.builder.setShot({value:'foo'});
+        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:'foo'});
+    });
+});
+
 suite('RangeBuilder', function() {
     setup(function () {
         this.builder = new RangeBuilder();
@@ -973,114 +1081,6 @@ suite('ResultBuilder', function() {
         assert.deepEqual(this.builder.getResult().shots, blank.shots);
 
         assert.deepEqual(shotsA, shotsB);
-    });
-});
-
-suite('ShotBuilder', function() {
-    setup(function () {
-        this.builder = new ShotBuilder();
-    });
-
-    test('Creates blank shot object to spec', function () {
-        var shot = ShotBuilder.createBlankShot();
-
-        assert.deepEqual(shot, {x:0, y:0, value:''});
-    });
-
-    test('Sanitizes shot object as expected', function () {
-        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2, value:'foo'}), {x:1, y:2, value:'foo'});
-        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2}), {x:1, y:2, value:''});
-        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, value:'foo'}), {x:1, y:0, value:'foo'});
-        assert.deepEqual(ShotBuilder.sanitizeShot({y:2, value:'foo'}), {x:0, y:2, value:'foo'});
-        assert.deepEqual(ShotBuilder.sanitizeShot({value:'foo'}), {x:0, y:0, value:'foo'});
-        assert.deepEqual(ShotBuilder.sanitizeShot({y:2}), {x:0, y:2, value:''});
-        assert.deepEqual(ShotBuilder.sanitizeShot({x:1}), {x:1, y:0, value:''});
-        assert.deepEqual(ShotBuilder.sanitizeShot({}), {x:0, y:0, value:''});
-    });
-
-    test('getShot() works as expected', function () {
-        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:''});
-    });
-
-    test('Sets x-position as expected', function () {
-        var x = Math.random()*2 - 1;
-
-        this.builder.setX(x);
-        assert.deepEqual(this.builder.getShot(), {x:x, y:0, value:''});
-    });
-
-    test('Sets y-position as expected', function () {
-        var y = Math.random()*2 - 1;
-
-        this.builder.setY(y);
-        assert.deepEqual(this.builder.getShot(), {x:0, y:y, value:''});
-    });
-
-    test('Sets value as expected', function () {
-        var value = 'X.0';
-
-        this.builder.setValue(value);
-        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:value});
-    });
-
-    test('Sets position as expected', function () {
-        var x = Math.random()*2 - 1;
-        var y = Math.random()*2 - 1;
-
-        this.builder.setPosition(x, y);
-        assert.deepEqual(this.builder.getShot(), {x:x, y:y, value:''});
-    });
-
-    test('Resets as expected', function () {
-        // change to non-default values
-        var x = Math.random()*2 - 1;
-        var y = Math.random()*2 - 1;
-        var value = 'X.0';
-
-        this.builder.setPosition(x, y);
-        this.builder.setValue(value);
-
-        var shot = this.builder.getShot();
-        assert.deepEqual(shot, {x:x, y:y, value:value});
-
-        // reset
-        this.builder.reset();
-        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:''});
-
-        // check that the original shot has not been changed
-        assert.deepEqual(shot, {x:x, y:y, value:value});
-    });
-
-    test('setShot() creates empty shot for empty shot data', function () {
-        this.builder.setShot({});
-
-        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
-    });
-
-    test('setShot() resets existing shot data', function () {
-        this.builder.setPosition(2, 3);
-        this.builder.setValue('foo');
-        this.builder.setShot({});
-
-        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
-    });
-
-    test('setShot() accepts all available fields', function () {
-        var shot = {x:1, y:2, value:'X'};
-        this.builder.setShot(shot);
-
-        assert.deepEqual(this.builder.getShot(), shot);
-    });
-
-    test('setShot() handles missing fields', function () {
-        var blankShot = ShotBuilder.createBlankShot();
-
-        this.builder.setShot({x:1});
-        assert.deepEqual(this.builder.getShot(), {x:1, y:0, value:''});
-        this.builder.setShot({y:1});
-        assert.deepEqual(this.builder.getShot(), {x:0, y:1, value:''});
-        this.builder.setShot({value:'foo'});
-        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:'foo'});
     });
 });
 

@@ -12,5 +12,7 @@
     },
     "homepage":"https://github.com/martinvl/liveshot-protocol",
     "bugs":"https://github.com/martinvl/liveshot-protocol/issues",
-    "dependencies":{}
+    "dependencies":{
+        "inherits":">=2.0"
+    }
 }

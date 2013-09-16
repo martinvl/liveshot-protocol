@@ -1,53 +1,33 @@
+var Builder = require('./Builder');
+var inherits = require('inherits');
+
 function ShotBuilder() {
     this.reset();
 }
 
 module.exports = ShotBuilder;
+inherits(ShotBuilder, Builder);
+
+ShotBuilder._default = {
+    x:0,
+    y:0,
+    value:''
+};
 
 ShotBuilder.createBlankShot = function () {
-    var shot = {
-        x:0,
-        y:0,
-        value:''
-    };
-
-    return shot;
+    return Builder.blankCopy(this._default);
 };
 
 ShotBuilder.sanitizeShot = function (rawShot) {
-    var shot = this.createBlankShot();
-
-    for (var key in shot) {
-        if (!rawShot.hasOwnProperty(key)) {
-            continue;
-        }
-
-        shot[key] = rawShot[key];
-    }
-
-    return shot;
-};
-
-ShotBuilder.prototype.reset = function () {
-    this._shot = this.constructor.createBlankShot();
-
-    return this;
+    return Builder.sanitize(rawShot, this._default);
 };
 
 ShotBuilder.prototype.getShot = function () {
-    return this._shot;
+    return this.getObject();
 };
 
 ShotBuilder.prototype.setShot = function (shot) {
-    this.reset();
-
-    for (var key in this._shot) {
-        if (shot.hasOwnProperty(key)) {
-            this._shot[key] = shot[key];
-        }
-    }
-
-    return this;
+    return this.setObject(shot);
 };
 
 ShotBuilder.prototype.setPosition = function (x, y) {
@@ -58,19 +38,19 @@ ShotBuilder.prototype.setPosition = function (x, y) {
 };
 
 ShotBuilder.prototype.setX = function (x) {
-    this._shot.x = x;
+    this._object.x = x;
 
     return this;
 };
 
 ShotBuilder.prototype.setY = function (y) {
-    this._shot.y = y;
+    this._object.y = y;
 
     return this;
 };
 
 ShotBuilder.prototype.setValue = function (value) {
-    this._shot.value = value;
+    this._object.value = value;
 
     return this;
 };
