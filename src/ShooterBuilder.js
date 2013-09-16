@@ -1,62 +1,56 @@
+var Builder = require('./Builder');
+var inherits = require('inherits');
+
 function ShooterBuilder() {
     this.reset();
 }
 
 module.exports = ShooterBuilder;
+inherits(ShooterBuilder, Builder);
 
-ShooterBuilder.createBlankShooter = function () {
-    var shooter = {
-        name:'',
-        club:'',
-        className:'',
-        category:''
-    };
-
-    return shooter;
+ShooterBuilder._default = {
+    name:'',
+    club:'',
+    className:'',
+    category:''
 };
 
-ShooterBuilder.prototype.reset = function () {
-    this._shooter = this.constructor.createBlankShooter();
+ShooterBuilder.createBlankShooter = function () {
+    return Builder.blankCopy(this._default);
+};
 
-    return this;
+ShooterBuilder.sanitizeShooter = function (shooter) {
+    return Builder.sanitize(shooter, this._default);
 };
 
 ShooterBuilder.prototype.getShooter = function () {
-    return this._shooter;
+    return this.getObject();
 };
 
 ShooterBuilder.prototype.setShooter = function (shooter) {
-    this.reset();
-
-    for (var key in this._shooter) {
-        if (shooter.hasOwnProperty(key)) {
-            this._shooter[key] = shooter[key];
-        }
-    }
-
-    return this;
+    return this.setObject(shooter);
 };
 
 ShooterBuilder.prototype.setName = function (name) {
-    this._shooter.name = name;
+    this._object.name = name;
 
     return this;
 };
 
 ShooterBuilder.prototype.setClub = function (club) {
-    this._shooter.club = club;
+    this._object.club = club;
 
     return this;
 };
 
 ShooterBuilder.prototype.setClassName = function (className) {
-    this._shooter.className = className;
+    this._object.className = className;
 
     return this;
 };
 
 ShooterBuilder.prototype.setCategory = function (category) {
-    this._shooter.category = category;
+    this._object.category = category;
 
     return this;
 };
