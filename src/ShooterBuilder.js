@@ -26,9 +26,13 @@ ShooterBuilder.prototype.getShooter = function () {
 };
 
 ShooterBuilder.prototype.setShooter = function (shooter) {
-    for (var key in this._shooter)
-        if (shooter.hasOwnProperty(key))
+    this.reset();
+
+    for (var key in this._shooter) {
+        if (shooter.hasOwnProperty(key)) {
             this._shooter[key] = shooter[key];
+        }
+    }
 
     return this;
 };

@@ -1,4 +1,7 @@
+var CardBuilder = require('./CardBuilder');
+
 function RangeBuilder() {
+    this.initialize();
     this.reset();
 };
 
@@ -32,6 +35,24 @@ RangeBuilder.prototype.getRange = function () {
     return this._range;
 };
 
+// --- Bulk setters ---
+RangeBuilder.prototype.setRange = function (range) {
+    this.reset();
+
+    for (var key in this._range) {
+        if (key != 'cards' && range.hasOwnProperty(key)) {
+            this._range[key] = range[key];
+        }
+    }
+
+    if (range.hasOwnProperty('cards')) {
+        this.setCards(range.cards);
+    }
+
+    return this;
+};
+
+// --- Fine grained setters ---
 RangeBuilder.prototype.setHost = function (host) {
     this._range.host = host;
 
@@ -61,7 +82,15 @@ RangeBuilder.prototype.setCards = function (cards) {
 };
 
 RangeBuilder.prototype.addCard = function (card) {
+    card = this._cardBuilder.reset()
+        .setCard(card)
+        .getCard();
     this._range.cards.push(card);
 
     return this;
+};
+
+// --- Internal API ---
+RangeBuilder.prototype.initialize = function () {
+    this._cardBuilder = new CardBuilder();
 };

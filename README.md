@@ -123,6 +123,8 @@ Either use `ShotBuilder` to build directly, or use `addShotData` of
 
 `ConfigBuilder` should be used to create `CardConfig` objects.
 
+Builders
+--------
 **RangeBuilder**  
 Builds _Range_ objects. All setters return reference to the builder, for convenience.
 

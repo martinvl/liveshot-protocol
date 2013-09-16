@@ -14,6 +14,20 @@ ShotBuilder.createBlankShot = function () {
     return shot;
 };
 
+ShotBuilder.sanitizeShot = function (rawShot) {
+    var shot = this.createBlankShot();
+
+    for (var key in shot) {
+        if (!rawShot.hasOwnProperty(key)) {
+            continue;
+        }
+
+        shot[key] = rawShot[key];
+    }
+
+    return shot;
+};
+
 ShotBuilder.prototype.reset = function () {
     this._shot = this.constructor.createBlankShot();
 
@@ -22,6 +36,18 @@ ShotBuilder.prototype.reset = function () {
 
 ShotBuilder.prototype.getShot = function () {
     return this._shot;
+};
+
+ShotBuilder.prototype.setShot = function (shot) {
+    this.reset();
+
+    for (var key in this._shot) {
+        if (shot.hasOwnProperty(key)) {
+            this._shot[key] = shot[key];
+        }
+    }
+
+    return this;
 };
 
 ShotBuilder.prototype.setPosition = function (x, y) {

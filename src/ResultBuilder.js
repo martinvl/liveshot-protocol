@@ -36,9 +36,13 @@ ResultBuilder.prototype.getResult = function () {
 };
 
 ResultBuilder.prototype.setResult = function (result) {
-    for (var key in this._result)
-        if (key != 'shots' && result.hasOwnProperty(key))
+    this.reset();
+
+    for (var key in this._result) {
+        if (key != 'shots' && result.hasOwnProperty(key)) {
             this._result[key] = result[key];
+        }
+    }
 
     if (result.hasOwnProperty('shots')) {
         this.setShots(result.shots);
@@ -69,7 +73,11 @@ ResultBuilder.prototype.setShots = function (shots) {
     this.resetShots();
 
     for (var idx in shots) {
-        this.addShot(shots[idx]);
+        var shot = this._shotBuilder.reset()
+            .setShot(shots[idx])
+            .getShot();
+
+        this.addShot(shot);
     }
 
     return this;

@@ -24,9 +24,13 @@ ConfigBuilder.prototype.getConfig = function () {
 };
 
 ConfigBuilder.prototype.setConfig = function (config) {
-    for (var key in this._config)
-        if (config.hasOwnProperty(key))
+    this.reset();
+
+    for (var key in this._config) {
+        if (config.hasOwnProperty(key)) {
             this._config[key] = config[key];
+        }
+    }
 
     return this;
 };

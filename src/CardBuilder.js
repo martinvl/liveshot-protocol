@@ -35,6 +35,51 @@ CardBuilder.prototype.getCard = function () {
     return this._card;
 };
 
+// --- Bulk setters ---
+CardBuilder.prototype.setCard = function (card) {
+    this.reset();
+
+    for (var key in this._card) {
+        if (key != 'shooter' && key != 'result'
+                && key != 'config' && card.hasOwnProperty(key)) {
+            this._card[key] = card[key];
+        }
+    }
+
+    if (card.hasOwnProperty('config')) {
+        this.setConfig(card.config);
+    }
+
+    if (card.hasOwnProperty('result')) {
+        this.setResult(card.result);
+    }
+
+    if (card.hasOwnProperty('shooter')) {
+        this.setShooter(card.shooter);
+    }
+
+    return this;
+};
+
+CardBuilder.prototype.setConfig = function (config) {
+    this._card.config = this._configBuilder.setConfig(config).getConfig();
+
+    return this;
+};
+
+CardBuilder.prototype.setResult = function (result) {
+    this._card.result = this._resultBuilder.setResult(result).getResult();
+
+    return this;
+};
+
+CardBuilder.prototype.setShooter = function (shooter) {
+    this._card.shooter = this._shooterBuilder.setShooter(shooter).getShooter();
+
+    return this;
+};
+
+// --- Fine grained setters ---
 CardBuilder.prototype.setLane = function (lane) {
     this._card.lane = lane;
 
@@ -95,44 +140,26 @@ CardBuilder.prototype.setTargetID = function (targetID) {
     return this;
 };
 
-CardBuilder.prototype.setShooter = function (shooter) {
-    this._shooterBuilder.setShooter(shooter);
-
-    return this;
-};
-
-CardBuilder.prototype.setResult = function (result) {
-    this._resultBuilder.setResult(result);
-
-    return this;
-};
-
-CardBuilder.prototype.setConfig = function (config) {
-    this._configBuilder.setConfig(config);
-
-    return this;
-};
-
 CardBuilder.prototype.setShots = function (shots) {
-    this._resultBuilder.setShots(shots);
+    this._card.result = this._resultBuilder.setShots(shots).getResult();
 
     return this;
 };
 
 CardBuilder.prototype.resetShots = function () {
-    this._resultBuilder.resetShots();
+    this._card.result = this._resultBuilder.resetShots().getResult();
 
     return this;
 };
 
 CardBuilder.prototype.addShot = function (shot) {
-    this._resultBuilder.addShot(shot);
+    this._card.result = this._resultBuilder.addShot(shot).getResult();
 
     return this;
 };
 
 CardBuilder.prototype.addShotData = function (x, y, value) {
-    this._resultBuilder.addShotData(x, y, value);
+    this._card.result = this._resultBuilder.addShotData(x, y, value).getResult();
 
     return this;
 };

@@ -79,20 +79,68 @@ suite('RangeBuilder', function() {
     test('Adds cards as expected', function () {
         var card1 = {
             lane:'1',
-            name:'foo',
-            club:'bar'
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'roof',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Ligg',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         var card2 = {
             lane:'2',
-            name:'bar',
-            club:'foo'
+            shooter:{
+                name:'loo',
+                club:'car',
+                className:'root',
+                category:'fff'
+            },
+            result:
+            {
+                seriesName:'Kne',
+                seriesSum: '50',
+                totalSum: '200',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:18,
+                targetID:'300m'
+            }
         };
 
         var card3 = {
-            lane:'3',
-            name:'foo',
-            club:'baz'
+            lane:'1',
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'rook',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Stå',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         assert.deepEqual(this.builder.getRange().cards, []);
@@ -137,20 +185,68 @@ suite('RangeBuilder', function() {
     test('setCards() adds cards as expected', function () {
         var card1 = {
             lane:'1',
-            name:'foo',
-            club:'bar'
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'roof',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Ligg',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         var card2 = {
             lane:'2',
-            name:'bar',
-            club:'foo'
+            shooter:{
+                name:'loo',
+                club:'car',
+                className:'root',
+                category:'fff'
+            },
+            result:
+            {
+                seriesName:'Kne',
+                seriesSum: '50',
+                totalSum: '200',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:18,
+                targetID:'300m'
+            }
         };
 
         var card3 = {
-            lane:'3',
-            name:'foo',
-            club:'baz'
+            lane:'1',
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'rook',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Stå',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         var range = this.builder.setCards([card1, card2, card3]).getRange();
@@ -162,38 +258,134 @@ suite('RangeBuilder', function() {
     test('setCards() owerwrites existing and adds new cards as expected', function () {
         var card1 = {
             lane:'1',
-            name:'foo',
-            club:'bar'
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'roof',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Ligg',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         var card2 = {
             lane:'2',
-            name:'bar',
-            club:'foo'
+            shooter:{
+                name:'loo',
+                club:'car',
+                className:'root',
+                category:'fff'
+            },
+            result:
+            {
+                seriesName:'Kne',
+                seriesSum: '50',
+                totalSum: '200',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:18,
+                targetID:'300m'
+            }
         };
 
         var card3 = {
-            lane:'3',
-            name:'foo',
-            club:'baz'
+            lane:'1',
+            shooter:{
+                name:'foo',
+                club:'bar',
+                className:'rook',
+                category:'kkk'
+            },
+            result:
+            {
+                seriesName:'Stå',
+                seriesSum: '0',
+                totalSum: '100',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:10,
+                targetID:'100m'
+            }
         };
 
         var card4 = {
             lane:'4',
-            name:'boo',
-            club:'par'
+            shooter:{
+                name:'jko',
+                club:'plr',
+                className:'rakf',
+                category:'kfk'
+            },
+            result:
+            {
+                seriesName:'fkgg',
+                seriesSum: '2',
+                totalSum: '1f0',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:119,
+                targetID:'092m'
+            }
         };
 
         var card5 = {
             lane:'5',
-            name:'gar',
-            club:'loo'
+            shooter:{
+                name:'lfo',
+                club:'caf',
+                className:'rfot',
+                category:'ffd'
+            },
+            result:
+            {
+                seriesName:'dne',
+                seriesSum: '80',
+                totalSum: '290',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:15,
+                targetID:'310m'
+            }
         };
 
         var card6 = {
             lane:'6',
-            name:'koo',
-            club:'bat'
+            shooter:{
+                name:'noo',
+                club:'bbr',
+                className:'rkok',
+                category:'kkh'
+            },
+            result:
+            {
+                seriesName:'itå',
+                seriesSum: '8',
+                totalSum: '14444',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:12,
+                targetID:'130m'
+            }
         };
 
         this.builder.setCards([card1, card2, card3]).getRange();
@@ -234,8 +426,70 @@ suite('RangeBuilder', function() {
             host:'Rygge SKL',
             name:'100m',
             relay:'1',
-            cards:[{foo:'bar'}, {zoo:'baz'}, {sky:'net'}]
-        };
+            cards:[
+        {
+            lane:'6',
+            shooter:{
+                name:'noo',
+                club:'bbr',
+                className:'rkok',
+                category:'kkh'
+            },
+            result:
+            {
+                seriesName:'itå',
+                seriesSum: '8',
+                totalSum: '14444',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:12,
+                targetID:'130m'
+            }
+        },
+        {
+            lane:'6',
+            shooter:{
+                name:'noo',
+                club:'bbr',
+                className:'rkok',
+                category:'kkh'
+            },
+            result:
+            {
+                seriesName:'itå',
+                seriesSum: '8',
+                totalSum: '14444',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:12,
+                targetID:'130m'
+            }
+        },
+        {
+            lane:'6',
+            shooter:{
+                name:'noo',
+                club:'bbr',
+                className:'rkok',
+                category:'kkh'
+            },
+            result:
+            {
+                seriesName:'itå',
+                seriesSum: '8',
+                totalSum: '14444',
+                shots: []
+            },
+            config:
+            {
+                gaugeSize:12,
+                targetID:'130m'
+            }
+        }]};
 
         var range = this.builder.setName(expected.name)
             .setHost(expected.host)
@@ -733,6 +987,17 @@ suite('ShotBuilder', function() {
         assert.deepEqual(shot, {x:0, y:0, value:''});
     });
 
+    test('Sanitizes shot object as expected', function () {
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2, value:'foo'}), {x:1, y:2, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, y:2}), {x:1, y:2, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1, value:'foo'}), {x:1, y:0, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({y:2, value:'foo'}), {x:0, y:2, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({value:'foo'}), {x:0, y:0, value:'foo'});
+        assert.deepEqual(ShotBuilder.sanitizeShot({y:2}), {x:0, y:2, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({x:1}), {x:1, y:0, value:''});
+        assert.deepEqual(ShotBuilder.sanitizeShot({}), {x:0, y:0, value:''});
+    });
+
     test('getShot() works as expected', function () {
         assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:''});
     });
@@ -784,6 +1049,38 @@ suite('ShotBuilder', function() {
 
         // check that the original shot has not been changed
         assert.deepEqual(shot, {x:x, y:y, value:value});
+    });
+
+    test('setShot() creates empty shot for empty shot data', function () {
+        this.builder.setShot({});
+
+        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
+    });
+
+    test('setShot() resets existing shot data', function () {
+        this.builder.setPosition(2, 3);
+        this.builder.setValue('foo');
+        this.builder.setShot({});
+
+        assert.deepEqual(this.builder.getShot(), ShotBuilder.createBlankShot());
+    });
+
+    test('setShot() accepts all available fields', function () {
+        var shot = {x:1, y:2, value:'X'};
+        this.builder.setShot(shot);
+
+        assert.deepEqual(this.builder.getShot(), shot);
+    });
+
+    test('setShot() handles missing fields', function () {
+        var blankShot = ShotBuilder.createBlankShot();
+
+        this.builder.setShot({x:1});
+        assert.deepEqual(this.builder.getShot(), {x:1, y:0, value:''});
+        this.builder.setShot({y:1});
+        assert.deepEqual(this.builder.getShot(), {x:0, y:1, value:''});
+        this.builder.setShot({value:'foo'});
+        assert.deepEqual(this.builder.getShot(), {x:0, y:0, value:'foo'});
     });
 });
 
