@@ -1,48 +1,42 @@
+var Builder = require('./Builder');
+var inherits = require('inherits');
+
 function ConfigBuilder() {
     this.reset();
 }
 
 module.exports = ConfigBuilder;
+inherits(ConfigBuilder, Builder);
 
-ConfigBuilder.createBlankConfig = function () {
-    var config = {
-        gaugeSize:1,
-        targetID:''
-    };
-
-    return config;
+ConfigBuilder._default = {
+    gaugeSize:.02,
+    targetID:'NO_DFS_200M'
 };
 
-ConfigBuilder.prototype.reset = function () {
-    this._config = this.constructor.createBlankConfig();
+ConfigBuilder.createBlankConfig = function () {
+    return Builder.blankCopy(this._default);
+};
 
-    return this;
+ConfigBuilder.sanitizeConfig = function (config) {
+    return Builder.sanitize(config, this._default);
 };
 
 ConfigBuilder.prototype.getConfig = function () {
-    return this._config;
+    return this.getObject();
 };
 
 ConfigBuilder.prototype.setConfig = function (config) {
-    this.reset();
-
-    for (var key in this._config) {
-        if (config.hasOwnProperty(key)) {
-            this._config[key] = config[key];
-        }
-    }
-
-    return this;
+    return this.setObject(config);
 };
 
 ConfigBuilder.prototype.setGaugeSize = function (gaugeSize) {
-    this._config.gaugeSize = gaugeSize;
+    this._object.gaugeSize = gaugeSize;
 
     return this;
 };
 
 ConfigBuilder.prototype.setTargetID = function (targetID) {
-    this._config.targetID = targetID;
+    this._object.targetID = targetID;
 
     return this;
 };

@@ -2,12 +2,132 @@ var assert = require('chai').assert;
 
 var protocol = require('../index');
 
+var Builder = protocol.Builder;
 var CardBuilder = protocol.CardBuilder;
 var ConfigBuilder = protocol.ConfigBuilder;
 var RangeBuilder = protocol.RangeBuilder;
 var ResultBuilder = protocol.ResultBuilder;
 var ShooterBuilder = protocol.ShooterBuilder;
 var ShotBuilder = protocol.ShotBuilder;
+
+suite('Builder', function() {
+    test('blankCopy() creates exact copy', function () {
+        var defaultObject = {foo:'bar', car:true, age:13};
+        var copy = Builder.blankCopy(defaultObject);
+
+        assert.deepEqual(copy, defaultObject);
+        assert.notEqual(copy, defaultObject); // make sure it's a copy
+    });
+
+    test('sanitize() copies all relevant fields', function () {
+        var defaultObject = {foo:'bar', car:true, age:13};
+        var rawObject = {foo:'car', car:false, age:10};
+        var object = Builder.sanitize(rawObject, defaultObject);
+
+        assert.deepEqual(object, rawObject);
+        assert.notEqual(object, rawObject); // make sure it's a copy
+    });
+
+    test('sanitize() ignores irrelevant fields', function () {
+        var defaultObject = {foo:'bar', car:true, age:13};
+        var rawObject = {phone:false, foo:'car', car:false, age:10, city:'oslo'};
+        var object = Builder.sanitize(rawObject, defaultObject);
+
+        assert.deepEqual(object, {foo:'car', car:false, age:10});
+    });
+
+    test('sanitize() sets default values for empty fields', function () {
+        var defaultObject = {foo:'bar', car:true, age:13};
+        var rawObject = {phone:false, foo:'car'};
+        var object = Builder.sanitize(rawObject, defaultObject);
+
+        assert.deepEqual(object, {foo:'car', car:true, age:13});
+    });
+
+    setup(function () {
+        this.builder = new Builder();
+    });
+
+    test('reset() returns builder', function () {
+        assert.equal(this.builder.reset(), this.builder);
+    });
+
+    test('getObject() returns copy of internal object', function () {
+        this.builder._object = {foo:'bar', car:true, age:13};
+
+        assert.deepEqual(this.builder.getObject(), this.builder._object);
+        assert.notEqual(this.builder.getObject(), this.builder._object);
+    });
+
+    test('setObject() returns builder', function () {
+        assert.equal(this.builder.setObject({}), this.builder);
+    });
+});
+
+suite('ConfigBuilder', function() {
+    setup(function () {
+        this.builder = new ConfigBuilder();
+    });
+
+    test('Creates blank config object to spec', function () {
+        var config = ConfigBuilder.createBlankConfig();
+
+        assert.deepEqual(config, {gaugeSize:.02, targetID:'NO_DFS_200M'});
+    });
+
+    test('getConfig() works as expected', function () {
+        assert.deepEqual(this.builder.getConfig(), {gaugeSize:.02, targetID:'NO_DFS_200M'});
+    });
+
+    test('Sets gaugeSize as expected', function () {
+        var gaugeSize = .5;
+
+        this.builder.setGaugeSize(gaugeSize);
+        assert.deepEqual(this.builder.getConfig(), {gaugeSize:gaugeSize, targetID:'NO_DFS_200M'});
+    });
+
+    test('Sets targetID as expected', function () {
+        var targetID = '100m';
+
+        this.builder.setTargetID(targetID);
+        assert.deepEqual(this.builder.getConfig(), {gaugeSize:.02, targetID:targetID});
+    });
+
+    test('Sets config as expected', function () {
+        var configA = this.builder
+        .setGaugeSize(.5)
+        .setTargetID('100m')
+        .getConfig();
+
+    var configB = new ConfigBuilder()
+        .setGaugeSize(.7)
+        .setTargetID('300m')
+        .getConfig();
+
+    assert.deepEqual(this.builder.getConfig(), configA);
+    this.builder.setConfig(configB);
+    assert.deepEqual(this.builder.getConfig(), configB);
+    });
+
+    test('Resets as expected', function () {
+        // change to non-default values
+        var gaugeSize = .5;
+        var targetID = '100m';
+
+        this.builder.setGaugeSize(gaugeSize);
+        this.builder.setTargetID(targetID);
+
+        var config = this.builder.getConfig();
+        assert.deepEqual(config, {gaugeSize:gaugeSize, targetID:targetID});
+
+        // reset
+        this.builder.reset();
+        assert.deepEqual(this.builder.getConfig(), {gaugeSize:.02, targetID:'NO_DFS_200M'});
+
+        // check that the original config has not been changed
+        assert.deepEqual(config, {gaugeSize:gaugeSize, targetID:targetID});
+    });
+});
 
 suite('ShotBuilder', function() {
     setup(function () {
@@ -126,9 +246,9 @@ suite('RangeBuilder', function() {
         var range = RangeBuilder.createBlankRange();
         var blank = {
             host:'',
-            name:'',
-            relay:'',
-            cards:[]
+        name:'',
+        relay:'',
+        cards:[]
         };
 
         assert.deepEqual(range, blank);
@@ -137,9 +257,9 @@ suite('RangeBuilder', function() {
     test('getRange() works as expected', function () {
         var blank = {
             host:'',
-            name:'',
-            relay:'',
-            cards:[]
+        name:'',
+        relay:'',
+        cards:[]
         };
 
         assert.deepEqual(this.builder.getRange(), blank);
@@ -149,9 +269,9 @@ suite('RangeBuilder', function() {
         var host = 'Rygge SKL';
         var expected = {
             host:host,
-            name:'',
-            relay:'',
-            cards:[]
+        name:'',
+        relay:'',
+        cards:[]
         };
 
         this.builder.setHost(host);
@@ -162,9 +282,9 @@ suite('RangeBuilder', function() {
         var name = '100m';
         var expected = {
             host:'',
-            name:name,
-            relay:'',
-            cards:[]
+        name:name,
+        relay:'',
+        cards:[]
         };
 
         this.builder.setName(name);
@@ -175,9 +295,9 @@ suite('RangeBuilder', function() {
         var relay = '1';
         var expected = {
             host:'',
-            name:'',
-            relay:relay,
-            cards:[]
+        name:'',
+        relay:relay,
+        cards:[]
         };
 
         this.builder.setRelay(relay);
@@ -187,24 +307,24 @@ suite('RangeBuilder', function() {
     test('Adds cards as expected', function () {
         var card1 = {
             lane:'1',
-            shooter:{
-                name:'foo',
-                club:'bar',
-                className:'roof',
-                category:'kkk'
-            },
-            result:
-            {
-                seriesName:'Ligg',
-                seriesSum: '0',
-                totalSum: '100',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:10,
-                targetID:'100m'
-            }
+        shooter:{
+            name:'foo',
+        club:'bar',
+        className:'roof',
+        category:'kkk'
+        },
+        result:
+    {
+        seriesName:'Ligg',
+        seriesSum: '0',
+        totalSum: '100',
+        shots: []
+    },
+        config:
+    {
+        gaugeSize:10,
+        targetID:'100m'
+    }
         };
 
         var card2 = {
@@ -266,20 +386,20 @@ suite('RangeBuilder', function() {
     test('Calling setCards() with empty array removes all cards', function () {
         var card1 = {
             lane:'1',
-            name:'foo',
-            club:'bar'
+        name:'foo',
+        club:'bar'
         };
 
         var card2 = {
             lane:'2',
-            name:'bar',
-            club:'foo'
+        name:'bar',
+        club:'foo'
         };
 
         var card3 = {
             lane:'3',
-            name:'foo',
-            club:'baz'
+        name:'foo',
+        club:'baz'
         };
 
         this.builder.addCard(card1);
@@ -293,24 +413,24 @@ suite('RangeBuilder', function() {
     test('setCards() adds cards as expected', function () {
         var card1 = {
             lane:'1',
-            shooter:{
-                name:'foo',
-                club:'bar',
-                className:'roof',
-                category:'kkk'
-            },
-            result:
-            {
-                seriesName:'Ligg',
-                seriesSum: '0',
-                totalSum: '100',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:10,
-                targetID:'100m'
-            }
+        shooter:{
+            name:'foo',
+        club:'bar',
+        className:'roof',
+        category:'kkk'
+        },
+        result:
+    {
+        seriesName:'Ligg',
+        seriesSum: '0',
+        totalSum: '100',
+        shots: []
+    },
+        config:
+    {
+        gaugeSize:10,
+        targetID:'100m'
+    }
         };
 
         var card2 = {
@@ -366,24 +486,24 @@ suite('RangeBuilder', function() {
     test('setCards() owerwrites existing and adds new cards as expected', function () {
         var card1 = {
             lane:'1',
-            shooter:{
-                name:'foo',
-                club:'bar',
-                className:'roof',
-                category:'kkk'
-            },
-            result:
-            {
-                seriesName:'Ligg',
-                seriesSum: '0',
-                totalSum: '100',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:10,
-                targetID:'100m'
-            }
+        shooter:{
+            name:'foo',
+        club:'bar',
+        className:'roof',
+        category:'kkk'
+        },
+        result:
+    {
+        seriesName:'Ligg',
+        seriesSum: '0',
+        totalSum: '100',
+        shots: []
+    },
+        config:
+    {
+        gaugeSize:10,
+        targetID:'100m'
+    }
         };
 
         var card2 = {
@@ -507,20 +627,20 @@ suite('RangeBuilder', function() {
     test('resetCards() clears cards', function () {
         var card1 = {
             lane:'1',
-            name:'foo',
-            club:'bar'
+        name:'foo',
+        club:'bar'
         };
 
         var card2 = {
             lane:'2',
-            name:'bar',
-            club:'foo'
+        name:'bar',
+        club:'foo'
         };
 
         var card3 = {
             lane:'3',
-            name:'foo',
-            club:'baz'
+        name:'foo',
+        club:'baz'
         };
 
         this.builder.setCards([card1, card2, card3]).getRange();
@@ -532,79 +652,79 @@ suite('RangeBuilder', function() {
     test('Setters work as expected', function () {
         var expected = {
             host:'Rygge SKL',
-            name:'100m',
-            relay:'1',
-            cards:[
-        {
-            lane:'6',
-            shooter:{
-                name:'noo',
-                club:'bbr',
-                className:'rkok',
-                category:'kkh'
-            },
-            result:
-            {
-                seriesName:'itå',
-                seriesSum: '8',
-                totalSum: '14444',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:12,
-                targetID:'130m'
-            }
+        name:'100m',
+        relay:'1',
+        cards:[
+    {
+        lane:'6',
+        shooter:{
+            name:'noo',
+        club:'bbr',
+        className:'rkok',
+        category:'kkh'
         },
-        {
-            lane:'6',
-            shooter:{
-                name:'noo',
-                club:'bbr',
-                className:'rkok',
-                category:'kkh'
-            },
-            result:
-            {
-                seriesName:'itå',
-                seriesSum: '8',
-                totalSum: '14444',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:12,
-                targetID:'130m'
-            }
+        result:
+    {
+        seriesName:'itå',
+        seriesSum: '8',
+        totalSum: '14444',
+        shots: []
+    },
+    config:
+    {
+        gaugeSize:12,
+        targetID:'130m'
+    }
+    },
+    {
+        lane:'6',
+        shooter:{
+            name:'noo',
+            club:'bbr',
+            className:'rkok',
+            category:'kkh'
         },
+        result:
         {
-            lane:'6',
-            shooter:{
-                name:'noo',
-                club:'bbr',
-                className:'rkok',
-                category:'kkh'
-            },
-            result:
-            {
-                seriesName:'itå',
-                seriesSum: '8',
-                totalSum: '14444',
-                shots: []
-            },
-            config:
-            {
-                gaugeSize:12,
-                targetID:'130m'
-            }
-        }]};
+            seriesName:'itå',
+            seriesSum: '8',
+            totalSum: '14444',
+            shots: []
+        },
+        config:
+        {
+            gaugeSize:12,
+            targetID:'130m'
+        }
+    },
+    {
+        lane:'6',
+        shooter:{
+            name:'noo',
+            club:'bbr',
+            className:'rkok',
+            category:'kkh'
+        },
+        result:
+        {
+            seriesName:'itå',
+            seriesSum: '8',
+            totalSum: '14444',
+            shots: []
+        },
+        config:
+        {
+            gaugeSize:12,
+            targetID:'130m'
+        }
+    }]};
 
-        var range = this.builder.setName(expected.name)
-            .setHost(expected.host)
-            .setRelay(expected.relay)
-            .setCards(expected.cards)
-            .getRange();
-        assert.deepEqual(range, expected);
+    var range = this.builder.setName(expected.name)
+        .setHost(expected.host)
+        .setRelay(expected.relay)
+        .setCards(expected.cards)
+        .getRange();
+    assert.deepEqual(range, expected);
     });
 });
 
@@ -617,22 +737,22 @@ suite('CardBuilder', function() {
         var card = CardBuilder.createBlankCard();
         var blank = {
             lane:'',
-            shooter:{
-                name:'',
-                club:'',
-                className:'',
-                category:''
-            },
-            result:{
-                seriesName:'',
-                seriesSum:'',
-                totalSum:'',
-                shots:[]
-            },
-            config:{
-                gaugeSize:1,
-                targetID:''
-            }
+        shooter:{
+            name:'',
+        club:'',
+        className:'',
+        category:''
+        },
+        result:{
+            seriesName:'',
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
+        },
+        config:{
+            gaugeSize:1,
+        targetID:''
+        }
         };
 
         assert.deepEqual(card, blank);
@@ -641,22 +761,22 @@ suite('CardBuilder', function() {
     test('getCard() works as expected', function () {
         var blank = {
             lane:'',
-            shooter:{
-                name:'',
-                club:'',
-                className:'',
-                category:''
-            },
-            result:{
-                seriesName:'',
-                seriesSum:'',
-                totalSum:'',
-                shots:[]
-            },
-            config:{
-                gaugeSize:1,
-                targetID:''
-            }
+        shooter:{
+            name:'',
+        club:'',
+        className:'',
+        category:''
+        },
+        result:{
+            seriesName:'',
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
+        },
+        config:{
+            gaugeSize:1,
+        targetID:''
+        }
         };
 
         assert.deepEqual(this.builder.getCard(), blank);
@@ -666,22 +786,22 @@ suite('CardBuilder', function() {
         var lane = '1';
         var expected = {
             lane:lane,
-            shooter:{
-                name:'',
-                club:'',
-                className:'',
-                category:''
-            },
-            result:{
-                seriesName:'',
-                seriesSum:'',
-                totalSum:'',
-                shots:[]
-            },
-            config:{
-                gaugeSize:1,
-                targetID:''
-            }
+        shooter:{
+            name:'',
+        club:'',
+        className:'',
+        category:''
+        },
+        result:{
+            seriesName:'',
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
+        },
+        config:{
+            gaugeSize:1,
+        targetID:''
+        }
         };
 
         this.builder.setLane(lane);
@@ -702,22 +822,22 @@ suite('CardBuilder', function() {
 
         var expected = {
             lane:lane,
-            shooter:{
-                name:name,
-                club:club,
-                className:className,
-                category:category
-            },
-            result:{
-                seriesName:seriesName,
-                seriesSum:seriesSum,
-                totalSum:totalSum,
-                shots:[]
-            },
-            config:{
-                gaugeSize:gaugeSize,
-                targetID:targetID
-            }
+        shooter:{
+            name:name,
+        club:club,
+        className:className,
+        category:category
+        },
+        result:{
+            seriesName:seriesName,
+            seriesSum:seriesSum,
+            totalSum:totalSum,
+            shots:[]
+        },
+        config:{
+            gaugeSize:gaugeSize,
+            targetID:targetID
+        }
         };
 
         this.builder.setLane(lane)
@@ -735,70 +855,6 @@ suite('CardBuilder', function() {
     });
 });
 
-suite('ConfigBuilder', function() {
-    setup(function () {
-        this.builder = new ConfigBuilder();
-    });
-
-    test('Creates blank config object to spec', function () {
-        var config = ConfigBuilder.createBlankConfig();
-
-        assert.deepEqual(config, {gaugeSize:1, targetID:''});
-    });
-
-    test('getConfig() works as expected', function () {
-        assert.deepEqual(this.builder.getConfig(), {gaugeSize:1, targetID:''});
-    });
-
-    test('Sets gaugeSize as expected', function () {
-        var gaugeSize = .5;
-
-        this.builder.setGaugeSize(gaugeSize);
-        assert.deepEqual(this.builder.getConfig(), {gaugeSize:gaugeSize, targetID:''});
-    });
-
-    test('Sets targetID as expected', function () {
-        var targetID = '100m';
-
-        this.builder.setTargetID(targetID);
-        assert.deepEqual(this.builder.getConfig(), {gaugeSize:1, targetID:targetID});
-    });
-
-    test('Sets config as expected', function () {
-        var configA = this.builder
-            .setGaugeSize(.5)
-            .setTargetID('100m')
-            .getConfig();
-
-        var configB = new ConfigBuilder()
-            .setGaugeSize(.7)
-            .setTargetID('300m')
-            .getConfig();
-
-        assert.deepEqual(this.builder.getConfig(), configA);
-        this.builder.setConfig(configB);
-        assert.deepEqual(this.builder.getConfig(), configB);
-    });
-
-    test('Resets as expected', function () {
-        // change to non-default values
-        var gaugeSize = .5;
-        var targetID = '100m';
-
-        this.builder.setGaugeSize(gaugeSize);
-        this.builder.setTargetID(targetID);
-
-        var config = this.builder.getConfig();
-        assert.deepEqual(config, {gaugeSize:gaugeSize, targetID:targetID});
-
-        // reset
-        this.builder.reset();
-        assert.deepEqual(this.builder.getConfig(), {gaugeSize:1, targetID:''});
-
-        // check that the original config has not been changed
-        assert.deepEqual(config, {gaugeSize:gaugeSize, targetID:targetID});
-    });
-});
 
 suite('ResultBuilder', function() {
     setup(function () {
@@ -809,9 +865,9 @@ suite('ResultBuilder', function() {
         var result = ResultBuilder.createBlankResult();
         var blank = {
             seriesName:'',
-            seriesSum:'',
-            totalSum:'',
-            shots:[]
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
         };
 
         assert.deepEqual(result, blank);
@@ -820,9 +876,9 @@ suite('ResultBuilder', function() {
     test('getResult() works as expected', function () {
         var blank = {
             seriesName:'',
-            seriesSum:'',
-            totalSum:'',
-            shots:[]
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
         };
 
         assert.deepEqual(this.builder.getResult(), blank);
@@ -832,9 +888,9 @@ suite('ResultBuilder', function() {
         var seriesName = 'Ligg';
         var expected = {
             seriesName:seriesName,
-            seriesSum:'',
-            totalSum:'',
-            shots:[]
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
         };
 
         this.builder.setSeriesName(seriesName);
@@ -845,9 +901,9 @@ suite('ResultBuilder', function() {
         var seriesSum = '50';
         var expected = {
             seriesName:'',
-            seriesSum:seriesSum,
-            totalSum:'',
-            shots:[]
+        seriesSum:seriesSum,
+        totalSum:'',
+        shots:[]
         };
 
         this.builder.setSeriesSum(seriesSum);
@@ -858,9 +914,9 @@ suite('ResultBuilder', function() {
         var totalSum = '250';
         var expected = {
             seriesName:'',
-            seriesSum:'',
-            totalSum:totalSum,
-            shots:[]
+        seriesSum:'',
+        totalSum:totalSum,
+        shots:[]
         };
 
         this.builder.setTotalSum(totalSum);
@@ -870,20 +926,20 @@ suite('ResultBuilder', function() {
     test('Adds shots as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var shotC = {
             x:.1,
-            y:0,
-            value:'X.0'
+        y:0,
+        value:'X.0'
         };
 
         this.builder.addShot(shotA);
@@ -898,20 +954,20 @@ suite('ResultBuilder', function() {
     test('Adds shot data as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var shotC = {
             x:.1,
-            y:0,
-            value:'X.0'
+        y:0,
+        value:'X.0'
         };
 
         this.builder.addShotData(shotA.x, shotA.y, shotA.value);
@@ -926,20 +982,20 @@ suite('ResultBuilder', function() {
     test('Sets shots as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var shotC = {
             x:.1,
-            y:0,
-            value:'X.0'
+        y:0,
+        value:'X.0'
         };
 
         // test with array
@@ -964,23 +1020,23 @@ suite('ResultBuilder', function() {
     test('Sets result as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var resultA = this.builder
-            .setSeriesName('Ligg')
-            .setSeriesSum('50')
-            .setTotalSum('250')
-            .addShot(shotA)
-            .addShot(shotB)
-            .getResult();
+        .setSeriesName('Ligg')
+        .setSeriesSum('50')
+        .setTotalSum('250')
+        .addShot(shotA)
+        .addShot(shotB)
+        .getResult();
 
         var resultB = new ResultBuilder()
             .setSeriesName('Kne')
@@ -998,21 +1054,21 @@ suite('ResultBuilder', function() {
     test('Resets as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var blank = {
             seriesName:'',
-            seriesSum:'',
-            totalSum:'',
-            shots:[]
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
         };
 
         var resultA = this.builder
@@ -1042,21 +1098,21 @@ suite('ResultBuilder', function() {
     test('Resets shots as expected', function () {
         var shotA = {
             x:1,
-            y:1,
-            value:'0.0'
+        y:1,
+        value:'0.0'
         };
 
         var shotB = {
             x:.5,
-            y:.5,
-            value:'4.0'
+        y:.5,
+        value:'4.0'
         };
 
         var blank = {
             seriesName:'',
-            seriesSum:'',
-            totalSum:'',
-            shots:[]
+        seriesSum:'',
+        totalSum:'',
+        shots:[]
         };
 
         var shotsA = this.builder
@@ -1129,22 +1185,22 @@ suite('ShooterBuilder', function() {
 
     test('Sets shooter as expected', function () {
         var shooterA = this.builder
-            .setName('Martin V. Larsen')
-            .setClub('Rygge')
-            .setClassName('4')
-            .setCategory('LF')
-            .getShooter();
+        .setName('Martin V. Larsen')
+        .setClub('Rygge')
+        .setClassName('4')
+        .setCategory('LF')
+        .getShooter();
 
-        var shooterB = new ShooterBuilder()
-            .setName('Edward Murr')
-            .setClub('Fredrikstad')
-            .setClassName('3')
-            .setCategory('A')
-            .getShooter();
+    var shooterB = new ShooterBuilder()
+        .setName('Edward Murr')
+        .setClub('Fredrikstad')
+        .setClassName('3')
+        .setCategory('A')
+        .getShooter();
 
-        assert.deepEqual(this.builder.getShooter(), shooterA);
-        this.builder.setShooter(shooterB);
-        assert.deepEqual(this.builder.getShooter(), shooterB);
+    assert.deepEqual(this.builder.getShooter(), shooterA);
+    this.builder.setShooter(shooterB);
+    assert.deepEqual(this.builder.getShooter(), shooterB);
     });
 
     test('Resets as expected', function () {

@@ -1,4 +1,5 @@
 module.exports = {
+    Builder:require('./src/Builder'),
     CardBuilder:require('./src/CardBuilder'),
     ConfigBuilder:require('./src/ConfigBuilder'),
     RangeBuilder:require('./src/RangeBuilder'),

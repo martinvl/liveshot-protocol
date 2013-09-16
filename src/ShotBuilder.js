@@ -18,8 +18,8 @@ ShotBuilder.createBlankShot = function () {
     return Builder.blankCopy(this._default);
 };
 
-ShotBuilder.sanitizeShot = function (rawShot) {
-    return Builder.sanitize(rawShot, this._default);
+ShotBuilder.sanitizeShot = function (shot) {
+    return Builder.sanitize(shot, this._default);
 };
 
 ShotBuilder.prototype.getShot = function () {
