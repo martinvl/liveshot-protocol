@@ -140,6 +140,11 @@ var range = new RangeBuilder()
 * (static method) **RangeBuilder.createBlankRange**() - ( _Range_ )  
     Creates and returns a new empty range, with all fields present, but set to
     empty placeholder values.
+* (static method) **RangeBuilder.sanitizeRange**(< _object_ >rawRange) - ( _Range_ )  
+    Creates a new `Range` object and copies all relevant fields from
+    `rawRange`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid `Range`
+    object.
 * **reset**() - ( _RangeBuilder_ )  
     Resets the current range. Returns pointer to the builder for convenience.
 * **getRange**() - ( _Range_ )  
@@ -182,6 +187,11 @@ var card = new CardBuilder()
 * (static method) **CardBuilder.createBlankCard**() - ( _Card_ )  
     Creates and returns a new empty card, with all fields present, but set to
     empty placeholder values.
+* (static method) **CardBuilder.sanitizeCard**(< _object_ >rawCard) - ( _Card_ )  
+    Creates a new `Card` object and copies all relevant fields from
+    `rawCard`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid `Card`
+    object.
 * **reset**() - ( _CardBuilder_ )  
     Resets the current card. Returns pointer to the builder for convenience.
 * **getCard**() - ( _Card_ )  
@@ -228,6 +238,11 @@ var shooter = new ShooterBuilder()
 * (static method) **ShooterBuilder.createBlankShooter**() - ( _Shooter_ )  
     Creates and returns a new empty shooter object, with all fields present,
     but set to empty placeholder values.
+* (static method) **ShooterBuilder.sanitizeShooter**(< _object_ >rawShooter) - ( _Shooter_ )  
+    Creates a new `Shooter` object and copies all relevant fields from
+    `rawShooter`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid
+    `Shooter` object.
 * **reset**() - ( _ShooterBuilder_ )  
     Resets the current shooter object.
 * **getShooter**() - ( _Shooter_ )  
@@ -257,6 +272,11 @@ var result = new ResultBuilder()
 * (static method) **ResultBuilder.createBlankResult**() - ( _Result_ )  
     Creates and returns a new empty result object, with all fields present,
     but set to empty placeholder values.
+* (static method) **ResultBuilder.sanitizeResult**(< _object_ >rawResult) - ( _Result_ )  
+    Creates a new `Result` object and copies all relevant fields from
+    `rawResult`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid
+    `Result` object.
 * **reset**() - ( _ResultBuilder_ )  
     Resets the current result object.
 * **getResult**() - ( _Result_ )  
@@ -288,6 +308,11 @@ Builds _Shot_ objects. All setters return reference to the builder, for convenie
 * (static method) **ShotBuilder.createBlankShot**() - ( _Shot_ )  
     Creates and returns a new empty shot object, with all fields present,
     but set to empty placeholder values.
+* (static method) **ShotBuilder.sanitizeShot**(< _object_ >rawShot) - ( _Shot_ )  
+    Creates a new `Shot` object and copies all relevant fields from
+    `rawShot`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid
+    `Shot` object.
 * **reset**() - ( _ShotBuilder_ )  
     Resets the current shot object.
 * **getShot**() - ( _Shot_ )  
@@ -312,6 +337,11 @@ var config = new ConfigBuilder()
 * (static method) **ConfigBuilder.createBlankConfig**() - ( _CardConfig_ )  
     Creates and returns a new empty config object, with all fields present,
     but set to empty placeholder values.
+* (static method) **ConfigBuilder.sanitizeConfig**(< _object_ >rawConfig) - ( _Config_ )  
+    Creates a new `Config` object and copies all relevant fields from
+    `rawConfig`, omitting all non-relevant fields and inserting default values
+    for missing fields. The returned object is guaranteed to be a valid
+    `Config` object.
 * **reset**() - ( _ConfigBuilder_ )  
     Resets the current config object.
 * **getConfig**() - ( _CardConfig_ )  
