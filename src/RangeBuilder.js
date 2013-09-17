@@ -1,3 +1,5 @@
+var Builder = require('./Builder');
+var inherits = require('inherits');
 var CardBuilder = require('./CardBuilder');
 
 function RangeBuilder() {
@@ -6,67 +8,62 @@ function RangeBuilder() {
 };
 
 module.exports = RangeBuilder;
+inherits(RangeBuilder, Builder);
+
+RangeBuilder._default = {
+    host:'',
+    name:'',
+    relay:'',
+    cards:[]
+};
 
 // --- External API ---
 RangeBuilder.createBlankRange = function () {
-    var range = {
-        host:'',
-        name:'',
-        relay:'',
-        cards:[]
-    };
+    return Builder.blankCopy(this._default);
+};
+
+RangeBuilder.sanitizeRange = function (rawRange) {
+    var range = Builder.sanitize(rawRange, this._default);
+
+    for (var key in range.cards) {
+        range.cards[key] = CardBuilder.sanitizeCard(range.cards[key]);
+    }
 
     return range;
 };
 
-RangeBuilder.prototype.reset = function () {
-    this._range = this.constructor.createBlankRange();
-
-    return this;
-};
-
 RangeBuilder.prototype.resetCards = function () {
-    this._range.cards = [];
+    this._object.cards = [];
 
     return this;
 };
 
 RangeBuilder.prototype.getRange = function () {
-    return this._range;
+    return this.getObject();
 };
 
-// --- Bulk setters ---
 RangeBuilder.prototype.setRange = function (range) {
-    this.reset();
-
-    for (var key in this._range) {
-        if (key != 'cards' && range.hasOwnProperty(key)) {
-            this._range[key] = range[key];
-        }
-    }
-
-    if (range.hasOwnProperty('cards')) {
-        this.setCards(range.cards);
-    }
+    this.setObject(range);
+    this.setCards(range.cards || []);
 
     return this;
 };
 
 // --- Fine grained setters ---
 RangeBuilder.prototype.setHost = function (host) {
-    this._range.host = host;
+    this._object.host = host;
 
     return this;
 };
 
 RangeBuilder.prototype.setName = function (name) {
-    this._range.name = name;
+    this._object.name = name;
 
     return this;
 };
 
 RangeBuilder.prototype.setRelay = function (relay) {
-    this._range.relay = relay;
+    this._object.relay = relay;
 
     return this;
 };
@@ -75,7 +72,7 @@ RangeBuilder.prototype.setCards = function (cards) {
     this.resetCards();
 
     for (var idx in cards) {
-        this.addCard(cards[idx]);
+        this.addCard(CardBuilder.sanitizeCard(cards[idx]));
     }
 
     return this;
@@ -85,7 +82,7 @@ RangeBuilder.prototype.addCard = function (card) {
     card = this._cardBuilder.reset()
         .setCard(card)
         .getCard();
-    this._range.cards.push(card);
+    this._object.cards.push(card);
 
     return this;
 };

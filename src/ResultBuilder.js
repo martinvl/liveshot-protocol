@@ -1,4 +1,6 @@
+var Builder = require('./Builder');
 var ShotBuilder = require('./ShotBuilder');
+var inherits = require('inherits');
 
 function ResultBuilder() {
     this.initialize();
@@ -6,65 +8,61 @@ function ResultBuilder() {
 }
 
 module.exports = ResultBuilder;
+inherits(ResultBuilder, Builder);
+
+ResultBuilder._default = {
+    seriesName:'',
+    seriesSum:'',
+    totalSum:'',
+    shots:[]
+};
 
 // --- External API ---
 ResultBuilder.createBlankResult = function () {
-    var result = {
-        seriesName:'',
-        seriesSum:'',
-        totalSum:'',
-        shots:[]
-    };
+    return Builder.blankCopy(this._default);
+};
+
+ResultBuilder.sanitizeResult = function (rawResult) {
+    var result = Builder.sanitize(rawResult, this._default);
+
+    for (var key in result.shots) {
+        result.shots[key] = ShotBuilder.sanitizeShot(result.shots[key]);
+    }
 
     return result;
 };
 
-ResultBuilder.prototype.reset = function () {
-    this._result = this.constructor.createBlankResult();
-
-    return this;
-};
-
 ResultBuilder.prototype.resetShots = function () {
-    this._result.shots = [];
+    this._object.shots = [];
 
     return this;
 };
 
 ResultBuilder.prototype.getResult = function () {
-    return this._result;
+    return this.getObject();
 };
 
 ResultBuilder.prototype.setResult = function (result) {
-    this.reset();
-
-    for (var key in this._result) {
-        if (key != 'shots' && result.hasOwnProperty(key)) {
-            this._result[key] = result[key];
-        }
-    }
-
-    if (result.hasOwnProperty('shots')) {
-        this.setShots(result.shots);
-    }
+    this.setObject(result);
+    this.setShots(result.shots || []);
 
     return this;
 };
 
 ResultBuilder.prototype.setSeriesName = function (seriesName) {
-    this._result.seriesName = seriesName;
+    this._object.seriesName = seriesName;
 
     return this;
 };
 
 ResultBuilder.prototype.setSeriesSum = function (seriesSum) {
-    this._result.seriesSum = seriesSum;
+    this._object.seriesSum = seriesSum;
 
     return this;
 };
 
 ResultBuilder.prototype.setTotalSum = function (totalSum) {
-    this._result.totalSum = totalSum;
+    this._object.totalSum = totalSum;
 
     return this;
 };
@@ -73,18 +71,14 @@ ResultBuilder.prototype.setShots = function (shots) {
     this.resetShots();
 
     for (var idx in shots) {
-        var shot = this._shotBuilder.reset()
-            .setShot(shots[idx])
-            .getShot();
-
-        this.addShot(shot);
+        this.addShot(ShotBuilder.sanitizeShot(shots[idx]));
     }
 
     return this;
 };
 
 ResultBuilder.prototype.addShot = function (shot) {
-    this._result.shots.push(shot);
+    this._object.shots.push(shot);
 
     return this;
 };

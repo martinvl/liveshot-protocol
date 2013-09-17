@@ -6,7 +6,7 @@ module.exports = Builder;
 
 // --- Static methods ---
 Builder.blankCopy = function (defaultObject) {
-    return clone(defaultObject);
+    return cloneDeep(defaultObject);
 };
 
 Builder.sanitize = function (rawObject, defaultObject) {
@@ -23,7 +23,7 @@ Builder.prototype.reset = function () {
 };
 
 Builder.prototype.getObject = function () {
-    return clone(this._object);
+    return cloneDeep(this._object);
 };
 
 Builder.prototype.setObject = function (rawObject) {
@@ -40,7 +40,13 @@ function set(from, to) {
             continue;
         }
 
-        to[key] = from[key];
+        var value = from[key];
+
+        if (value instanceof Array) {
+            to[key] = [].concat(value);
+        } else {
+            to[key] = value;
+        }
     }
 
     return to;
@@ -50,7 +56,37 @@ function clone(object) {
     var copy = {};
 
     for (var key in object) {
-        copy[key] = object[key];
+        var value = object[key];
+
+        if (value instanceof Array) {
+            copy[key] = [].concat(value);
+        } else {
+            copy[key] = value;
+        }
+    }
+
+    return copy;
+}
+
+function cloneDeep(object) {
+    if (!(object instanceof Object)) {
+        return object;
+    }
+
+    var copy = {};
+
+    for (var key in object) {
+        var value = object[key];
+
+        if (value instanceof Array) {
+            copy[key] = [];
+
+            for (var idx in value) {
+                copy[key].push(cloneDeep(value[idx]));
+            }
+        } else {
+            copy[key] = cloneDeep(value);
+        }
     }
 
     return copy;
