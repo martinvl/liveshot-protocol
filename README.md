@@ -143,7 +143,7 @@ var range = new RangeBuilder()
 * **reset**() - ( _RangeBuilder_ )  
     Resets the current range. Returns pointer to the builder for convenience.
 * **getRange**() - ( _Range_ )  
-    Returns pointer to the current range
+    Returns a copy of the current range
 * **setHost**(< _string_ >host) - ( _RangeBuilder_ )
 * **setName**(< _string_ >range) - ( _RangeBuilder_ )
 * **setRelay**(< _string_ >relay) - ( _RangeBuilder_ )
@@ -185,7 +185,7 @@ var card = new CardBuilder()
 * **reset**() - ( _CardBuilder_ )  
     Resets the current card. Returns pointer to the builder for convenience.
 * **getCard**() - ( _Card_ )  
-    Returns pointer to the current card
+    Returns a copy of the current card
 * **setLane**(< _string_ >lane) - ( _CardBuilder_ )
 * **setName**(< _string_ >name) - ( _CardBuilder_ )
 * **setClub**(< _string_ >club) - ( _CardBuilder_ )
@@ -231,7 +231,7 @@ var shooter = new ShooterBuilder()
 * **reset**() - ( _ShooterBuilder_ )  
     Resets the current shooter object.
 * **getShooter**() - ( _Shooter_ )  
-    Returns pointer to the current shooter object
+    Returns a copy of the current shooter object
 * **setShooter**(< _object_ >shooter) - ( _ShooterBuilder_ )  
     Copies all relevant fields from `shooter`
 * **setName**(< _string_ >name) - ( _ShooterBuilder_ )
@@ -260,7 +260,7 @@ var result = new ResultBuilder()
 * **reset**() - ( _ResultBuilder_ )  
     Resets the current result object.
 * **getResult**() - ( _Result_ )  
-    Returns pointer to the current result object
+    Returns a copy of the current result object
 * **setResult**(< _Result_ >result) - ( _ResultBuilder_ )  
     Copies all relevant fields from `result`
 * **setSeriesName**(< _string_ >seriesName) - ( _ResultBuilder_ )
@@ -291,7 +291,7 @@ Builds _Shot_ objects. All setters return reference to the builder, for convenie
 * **reset**() - ( _ShotBuilder_ )  
     Resets the current shot object.
 * **getShot**() - ( _Shot_ )  
-    Returns pointer to the current shot object
+    Returns a copy of the current shot object
 * **setValue**(< _string_ >value) - ( _ShotBuilder_ )
 * **setPosition**(< _number_ >x, < _number_ >y) - ( _ShotBuilder_ )  
     _x_ and _y_ should be normalized (i.e. `-1 <= x, y <= 1`)
@@ -315,7 +315,7 @@ var config = new ConfigBuilder()
 * **reset**() - ( _ConfigBuilder_ )  
     Resets the current config object.
 * **getConfig**() - ( _CardConfig_ )  
-    Returns pointer to the current config object
+    Returns a copy of the current config object
 * **setConfig**(< _object_ >config) - ( _ConfigBuilder_ )  
     Copies all relevant fields from `config`
 * **setGaugeSize**(< _number_ >gaugeSize) - ( _ConfigBuilder_ )
