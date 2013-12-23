@@ -375,6 +375,7 @@ suite('ResultBuilder', function() {
             seriesName:'',
             seriesSum:'',
             totalSum:'',
+            marking:false,
             shots:[]
         };
 
@@ -382,15 +383,15 @@ suite('ResultBuilder', function() {
     });
 
     test('Sanitizes result object as expected', function () {
-        var result = {seriesName:'foo', seriesSum:'50', totalSum:'100', shots:[]};
+        var result = {seriesName:'foo', seriesSum:'50', totalSum:'100', marking:true, shots:[]};
         assert.deepEqual(ResultBuilder.sanitizeResult(result), result, 'should pass all relevant fields');
         assert.notEqual(ResultBuilder.sanitizeResult(result).shots, result.shots, 'should copy shots array');
 
-        assert.deepEqual(ResultBuilder.sanitizeResult({}), {seriesName:'', seriesSum:'', totalSum:'', shots:[]}, 'should fill in missing fields');
-        assert.deepEqual(ResultBuilder.sanitizeResult({foo:'car', bar:'foo'}), {seriesName:'', seriesSum:'', totalSum:'', shots:[]}, 'should ignore irrelevant fields');
+        assert.deepEqual(ResultBuilder.sanitizeResult({}), {seriesName:'', seriesSum:'', totalSum:'', marking:false, shots:[]}, 'should fill in missing fields');
+        assert.deepEqual(ResultBuilder.sanitizeResult({foo:'car', bar:'foo'}), {seriesName:'', seriesSum:'', totalSum:'', marking:false, shots:[]}, 'should ignore irrelevant fields');
 
         result = {shots:[{x:1, y:2, value:'foo', moose:false}, {x:2, y:1, value:'boo', dog:true}]};
-        assert.deepEqual(ResultBuilder.sanitizeResult(result), {seriesName:'', seriesSum:'', totalSum:'', shots:[{x:1, y:2, value:'foo'}, {x:2, y:1, value:'boo'}]}, 'should sanitize shots');
+        assert.deepEqual(ResultBuilder.sanitizeResult(result), {seriesName:'', seriesSum:'', totalSum:'', marking:false, shots:[{x:1, y:2, value:'foo'}, {x:2, y:1, value:'boo'}]}, 'should sanitize shots');
         assert.notEqual(ResultBuilder.sanitizeResult(result).shots[0], result.shots[0], 'sanitized shots should be copies');
     });
 
@@ -399,6 +400,7 @@ suite('ResultBuilder', function() {
             seriesName:'',
         seriesSum:'',
         totalSum:'',
+        marking:false,
         shots:[]
         };
 
@@ -411,6 +413,7 @@ suite('ResultBuilder', function() {
             seriesName:seriesName,
         seriesSum:'',
         totalSum:'',
+        marking:false,
         shots:[]
         };
 
@@ -424,10 +427,25 @@ suite('ResultBuilder', function() {
             seriesName:'',
         seriesSum:seriesSum,
         totalSum:'',
+        marking:false,
         shots:[]
         };
 
         this.builder.setSeriesSum(seriesSum);
+        assert.deepEqual(this.builder.getResult(), expected);
+    });
+
+    test('Sets marking as expected', function () {
+        var marking = true;
+        var expected = {
+            seriesName:'',
+        seriesSum:'',
+        totalSum:'',
+        marking:marking,
+        shots:[]
+        };
+
+        this.builder.setMarking(marking);
         assert.deepEqual(this.builder.getResult(), expected);
     });
 
@@ -437,6 +455,7 @@ suite('ResultBuilder', function() {
             seriesName:'',
         seriesSum:'',
         totalSum:totalSum,
+        marking:false,
         shots:[]
         };
 
@@ -555,6 +574,7 @@ suite('ResultBuilder', function() {
         .setSeriesName('Ligg')
         .setSeriesSum('50')
         .setTotalSum('250')
+        .setMarking(true)
         .addShot(shotA)
         .addShot(shotB)
         .getResult();
@@ -563,6 +583,7 @@ suite('ResultBuilder', function() {
             .setSeriesName('Kne')
             .setSeriesSum('49')
             .setTotalSum('249')
+            .setMarking(false)
             .addShot(shotB)
             .addShot(shotA)
             .getResult();
@@ -589,6 +610,7 @@ suite('ResultBuilder', function() {
             seriesName:'',
         seriesSum:'',
         totalSum:'',
+        marking:false,
         shots:[]
         };
 
@@ -596,6 +618,7 @@ suite('ResultBuilder', function() {
             .setSeriesName('Ligg')
             .setSeriesSum('50')
             .setTotalSum('250')
+            .setMarking(true)
             .addShot(shotA)
             .addShot(shotB)
             .getResult();
@@ -604,6 +627,7 @@ suite('ResultBuilder', function() {
             .setSeriesName('Ligg')
             .setSeriesSum('50')
             .setTotalSum('250')
+            .setMarking(true)
             .addShot(shotA)
             .addShot(shotB)
             .getResult();
@@ -633,6 +657,7 @@ suite('ResultBuilder', function() {
             seriesName:'',
         seriesSum:'',
         totalSum:'',
+        marking:false,
         shots:[]
         };
 
@@ -640,6 +665,7 @@ suite('ResultBuilder', function() {
             .setSeriesName('Ligg')
             .setSeriesSum('50')
             .setTotalSum('250')
+            .setMarking(true)
             .addShot(shotA)
             .addShot(shotB)
             .getResult().shots;
@@ -648,6 +674,7 @@ suite('ResultBuilder', function() {
             .setSeriesName('Ligg')
             .setSeriesSum('50')
             .setTotalSum('250')
+            .setMarking(true)
             .addShot(shotA)
             .addShot(shotB)
             .getResult().shots;
@@ -680,6 +707,7 @@ suite('CardBuilder', function() {
                 seriesName:'',
                 seriesSum:'',
                 totalSum:'',
+                marking:false,
                 shots:[]
             },
             config:{
@@ -704,6 +732,7 @@ suite('CardBuilder', function() {
                 seriesName:'',
                 seriesSum:'',
                 totalSum:'',
+                marking:false,
                 shots:[]
             },
             config:{
@@ -729,6 +758,7 @@ suite('CardBuilder', function() {
                 seriesName:'',
                 seriesSum:'',
                 totalSum:'',
+                marking:false,
                 shots:[]
             },
             config:{
@@ -750,6 +780,7 @@ suite('CardBuilder', function() {
         var seriesName = 'Ligg';
         var seriesSum = '50';
         var totalSum = '250';
+        var marking = false;
         var gaugeSize = .5;
         var targetID = 'DFS100m';
 
@@ -765,6 +796,7 @@ suite('CardBuilder', function() {
                 seriesName:seriesName,
                 seriesSum:seriesSum,
                 totalSum:totalSum,
+                marking:marking,
                 shots:[]
             },
             config:{
@@ -781,6 +813,7 @@ suite('CardBuilder', function() {
             .setSeriesName(seriesName)
             .setSeriesSum(seriesSum)
             .setTotalSum(totalSum)
+            .setMarking(marking)
             .setGaugeSize(gaugeSize)
             .setTargetID(targetID);
 
@@ -870,6 +903,7 @@ suite('RangeBuilder', function() {
         seriesName:'Ligg',
         seriesSum: '0',
         totalSum: '100',
+        marking: true,
         shots: []
     },
         config:
@@ -892,6 +926,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Kne',
                 seriesSum: '50',
                 totalSum: '200',
+                marking: false,
                 shots: []
             },
             config:
@@ -914,6 +949,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Stå',
                 seriesSum: '0',
                 totalSum: '100',
+                marking: true,
                 shots: []
             },
             config:
@@ -976,6 +1012,7 @@ suite('RangeBuilder', function() {
         seriesName:'Ligg',
         seriesSum: '0',
         totalSum: '100',
+        marking: true,
         shots: []
     },
         config:
@@ -998,6 +1035,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Kne',
                 seriesSum: '50',
                 totalSum: '200',
+                marking: false,
                 shots: []
             },
             config:
@@ -1020,6 +1058,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Stå',
                 seriesSum: '0',
                 totalSum: '100',
+                marking: true,
                 shots: []
             },
             config:
@@ -1049,6 +1088,7 @@ suite('RangeBuilder', function() {
         seriesName:'Ligg',
         seriesSum: '0',
         totalSum: '100',
+        marking: true,
         shots: []
     },
         config:
@@ -1071,6 +1111,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Kne',
                 seriesSum: '50',
                 totalSum: '200',
+                marking: false,
                 shots: []
             },
             config:
@@ -1093,6 +1134,7 @@ suite('RangeBuilder', function() {
                 seriesName:'Stå',
                 seriesSum: '0',
                 totalSum: '100',
+                marking: true,
                 shots: []
             },
             config:
@@ -1115,6 +1157,7 @@ suite('RangeBuilder', function() {
                 seriesName:'fkgg',
                 seriesSum: '2',
                 totalSum: '1f0',
+                marking: true,
                 shots: []
             },
             config:
@@ -1137,6 +1180,7 @@ suite('RangeBuilder', function() {
                 seriesName:'dne',
                 seriesSum: '80',
                 totalSum: '290',
+                marking: false,
                 shots: []
             },
             config:
@@ -1159,6 +1203,7 @@ suite('RangeBuilder', function() {
                 seriesName:'itå',
                 seriesSum: '8',
                 totalSum: '14444',
+                marking: false,
                 shots: []
             },
             config:
@@ -1220,6 +1265,7 @@ suite('RangeBuilder', function() {
         seriesName:'itå',
         seriesSum: '8',
         totalSum: '14444',
+        marking: false,
         shots: []
     },
     config:
@@ -1241,6 +1287,7 @@ suite('RangeBuilder', function() {
             seriesName:'itå',
             seriesSum: '8',
             totalSum: '14444',
+            marking: true,
             shots: []
         },
         config:
@@ -1262,6 +1309,7 @@ suite('RangeBuilder', function() {
             seriesName:'itå',
             seriesSum: '8',
             totalSum: '14444',
+            marking: true,
             shots: []
         },
         config:

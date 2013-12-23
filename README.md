@@ -89,6 +89,9 @@ of `CardBuilder` to build indirectly.
     The sum of the current series, formatted for display, ex: `'50'`
 * < _string_ >`totalSum`
     The total sum of the card, formatted for display, ex: `'150'`
+* < _boolean_ >`marking`
+    Indicates whether this is a marking series (i.e. 'tellende'). Used for
+    displaying test triangle on test series.
 * < _iterable_ >`shots`
     * Contains zero or more < _Shot_ > objects, the keys of this object can be
     anything, as long as they iterate in the correct order. Typically these
@@ -179,6 +182,7 @@ var card = new CardBuilder()
     .addShotData(-.071, .071, 'X.0')
     .setSeriesSum('50')
     .setTotalSum('150')
+    .setMarking(false)
     .setGaugeSize(.00533)
     .setTargetID('NO-DFS_300M')
     .getCard();
@@ -204,6 +208,7 @@ var card = new CardBuilder()
 * **setSeriesName**(< _string_ >seriesName) - ( _CardBuilder_ )
 * **setSeriesSum**(< _string_ >seriesSum) - ( _CardBuilder_ )
 * **setTotalSum**(< _string_ >totalSum) - ( _CardBuilder_ )
+* **setMarking**(< _boolean_ >marking) - ( _CardBuilder_ )
 * **setGaugeSize**(< _number_ >gaugeSize) - ( _CardBuilder_ )
 * **setTargetID**(< _string_ >targetID) - ( _CardBuilder_ )  
     For valid values of `targetID`, see _List of implemented targets_ in
@@ -261,6 +266,7 @@ var result = new ResultBuilder()
     .setSeriesName('Ligg')
     .setSeriesSum('50')
     .setTotalSum('150')
+    .setMarking(false)
     .addShot(shot)
     .addShotData(0, -.1, 'X.0')
     .addShotData(.071, .071, 'X.0')
@@ -286,6 +292,7 @@ var result = new ResultBuilder()
 * **setSeriesName**(< _string_ >seriesName) - ( _ResultBuilder_ )
 * **setSeriesSum**(< _string_ >seriesSum) - ( _ResultBuilder_ )
 * **setTotalSum**(< _string_ >totalSum) - ( _ResultBuilder_ )
+* **setMarking**(< _boolean_ >marking) - ( _ResultBuilder_ )
 * **setShots**(< _iterable_ >shots) - ( _ResultBuilder_ )  
     `shots` should be as described above
 * **resetShots**() - ( _ResultBuilder_ )  

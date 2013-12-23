@@ -14,6 +14,7 @@ ResultBuilder._default = {
     seriesName:'',
     seriesSum:'',
     totalSum:'',
+    marking:false,
     shots:[]
 };
 
@@ -63,6 +64,12 @@ ResultBuilder.prototype.setSeriesSum = function (seriesSum) {
 
 ResultBuilder.prototype.setTotalSum = function (totalSum) {
     this._object.totalSum = totalSum;
+
+    return this;
+};
+
+ResultBuilder.prototype.setMarking = function (marking) {
+    this._object.marking = marking;
 
     return this;
 };

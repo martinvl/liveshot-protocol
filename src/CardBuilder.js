@@ -126,6 +126,12 @@ CardBuilder.prototype.setTotalSum = function (totalSum) {
     return this;
 };
 
+CardBuilder.prototype.setMarking = function (marking) {
+    this._object.result = this._resultBuilder.setMarking(marking).getResult();
+
+    return this;
+};
+
 CardBuilder.prototype.setGaugeSize = function (gaugeSize) {
     this._object.config = this._configBuilder.setGaugeSize(gaugeSize).getConfig();
 
