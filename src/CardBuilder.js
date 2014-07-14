@@ -90,7 +90,7 @@ CardBuilder.prototype.setShooter = function (shooter) {
 };
 
 CardBuilder.prototype.resetShooter = function () {
-    this._object.shooter = this._shooterBuilder.resetShooter().getShooter();
+    this._object.shooter = this._shooterBuilder.reset().getShooter();
 
     return this;
 };
