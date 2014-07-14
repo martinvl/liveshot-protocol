@@ -215,10 +215,13 @@ var card = new CardBuilder()
     [liveshot-core](https://github.com/martinvl/liveshot-core#list-of-implemented-targets).
 * **setShooter**(< _Shooter_ >shooter) - ( _CardBuilder_ )  
     `shooter` should be as described above
+* **resetShooter**() - ( _CardBuilder_ )  
 * **setResult**(< _Result_ >result) - ( _CardBuilder_ )  
     `result` should be as described above
+* **resetResult**() - ( _CardBuilder_ )  
 * **setConfig**(< _CardConfig_ >config) - ( _CardBuilder_ )  
     `config` should be as described above
+* **resetConfig**() - ( _CardBuilder_ )  
 * **setShots**(< _iterable_ >shots) - ( _CardBuilder_ )  
     `shots` should be as described above
 * **resetShots**() - ( _CardBuilder_ )  
