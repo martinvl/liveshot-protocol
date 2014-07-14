@@ -65,14 +65,32 @@ CardBuilder.prototype.setConfig = function (config) {
     return this;
 };
 
+CardBuilder.prototype.resetConfig = function () {
+    this._object.config = this._configBuilder.reset().getConfig();
+
+    return this;
+};
+
 CardBuilder.prototype.setResult = function (result) {
     this._object.result = this._resultBuilder.setResult(result).getResult();
 
     return this;
 };
 
+CardBuilder.prototype.resetResult = function () {
+    this._object.result = this._resultBuilder.reset().getResult();
+
+    return this;
+};
+
 CardBuilder.prototype.setShooter = function (shooter) {
     this._object.shooter = this._shooterBuilder.setShooter(shooter).getShooter();
+
+    return this;
+};
+
+CardBuilder.prototype.resetShooter = function () {
+    this._object.shooter = this._shooterBuilder.resetShooter().getShooter();
 
     return this;
 };
